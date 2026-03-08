@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | Chanta</title>
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&f[]=switzer@200,300,400,500,600,700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#FDFCF8', charcoal: '#1C1C1C', sage: '#E2E8E4', gold: '#D4AF37', red: '#DC2626', stone: '#E8E6E1' }
+                    },
+                    fontFamily: { sans: ['General Sans', 'sans-serif'], body: ['Switzer', 'sans-serif'] },
+                    borderRadius: { '4xl': '32px', '5xl': '40px' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFCF8;
+            color: #1C1C1C;
+            font-family: 'Switzer', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'General Sans', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .glass-blur {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body class="bg-brand-bg">
+
+    <!-- Nav -->
+    <nav class="sticky top-0 w-full h-20 z-50 glass-blur border-b border-gray-100 flex items-center">
+        <div class="max-w-[1440px] mx-auto px-6 md:px-12 w-full flex justify-between items-center">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div
+                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-sm border border-gray-100">
+                        <img src="logo.png" alt="Chanta" class="w-full h-full object-contain"
+                            onerror="this.src='https://via.placeholder.com/40?text=C'">
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-500">
+                    <a href="our-juice.html" class="hover:text-brand-charcoal transition-colors">Our Juice</a>
+                    <a href="our-story.html" class="text-brand-charcoal font-bold">Our Story</a>
+                    <a href="our-partnerships.html" class="hover:text-brand-charcoal transition-colors">Our
+                        Partnerships</a>
+                </div>
+            </div>
+            <a href="index.html#products"
+                class="hidden md:block bg-brand-charcoal text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all hover:scale-105 active:scale-95">
+                Order Now
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="py-32 px-6 max-w-[1440px] mx-auto">
+        <div class="max-w-4xl">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold">Our Story</span>
+            <h1 class="text-6xl md:text-8xl font-bold mt-6 mb-12 leading-[0.9]">
+                In an age of AI, <br><span class="italic font-light">this is real.</span>
+            </h1>
+        </div>
+    </section>
+
+    <!-- Full-width image -->
+    <section class="px-4 md:px-8 mb-24">
+        <div class="w-full h-[60vh] rounded-5xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&q=80&w=1600"
+                alt="Chanta Story" class="w-full h-full object-cover">
+        </div>
+    </section>
+
+    <!-- Story body -->
+    <section class="max-w-[900px] mx-auto px-6 pb-32">
+        <div class="space-y-10 text-xl text-gray-500 leading-relaxed">
+            <p>
+                In an age of AI, algorithms, and endless scroll — Chanta is a drink that feels like the good old days.
+                It feels like the relief you felt as a toddler, the moment a cold glass of orange juice touched your
+                lips on a hot summer afternoon.
+            </p>
+            <p class="text-brand-charcoal font-bold italic text-2xl">
+                That sigh. That moment. That's Chanta.
+            </p>
+            <p>
+                We're not trying to disrupt anything. We're not optimizing for scale or chasing a trend. We're just up
+                early every morning in Johannesburg, pressing oranges. Because some things were already perfect.
+            </p>
+            <p>
+                Chanta is about slowing down. Appreciating life — real life — for all the good things it has to offer. A
+                quiet morning. A cold glass. The simple pleasure of something honest.
+            </p>
+            <p>
+                No algorithm made this. No AI pressed it. Just oranges, cold water, and early mornings in Johannesburg.
+            </p>
+            <p class="text-brand-charcoal font-bold italic text-3xl border-l-4 border-brand-gold pl-8">
+                When life gives you oranges, drink Chanta.
+            </p>
+        </div>
+
+        <div class="mt-24 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-start gap-12">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-brand-gold mb-2">Founded</p>
+                <p class="text-5xl font-bold">2024</p>
+                <p class="text-gray-400 mt-1">Johannesburg, SA</p>
+            </div>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-brand-gold mb-2">What we press</p>
+                <p class="text-5xl font-bold">Oranges.</p>
+                <p class="text-gray-400 mt-1">Nothing else. Ever.</p>
+            </div>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-brand-gold mb-2">Our promise</p>
+                <p class="text-5xl font-bold">0</p>
+                <p class="text-gray-400 mt-1">Added sugars. Always.</p>
+            </div>
+        </div>
+
+        <div class="mt-20">
+            <a href="index.html#products"
+                class="inline-flex items-center gap-4 bg-brand-charcoal text-white px-10 py-5 rounded-full font-bold text-lg hover:scale-105 active:scale-95 transition-all">
+                <i class="fa-solid fa-basket-shopping"></i> Order Yours
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-charcoal py-12 px-6 text-center">
+        <p class="text-white/30 text-sm">© 2024 CHANTA. Johannesburg, SA. <a href="index.html"
+                class="hover:text-white transition-colors">Back to Home</a></p>
+    </footer>
+
+</body>
+
+</html>
