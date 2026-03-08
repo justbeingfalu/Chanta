@@ -212,7 +212,7 @@
                         <i class="fa-solid fa-certificate text-brand-gold"></i> Premium Quality
                     </div>
                     <h1 class="text-6xl md:text-8xl lg:text-[90px] leading-[0.9] font-bold mb-8 reveal-up">
-                        Just <span class="italic font-light">Orange</span>. <br>Just <span
+                        When life <span class="italic font-light">gives you</span> <br>oranges, drink <span
                             class="italic font-light">Chanta</span>.
                     </h1>
                     <p class="text-lg md:text-xl text-white/80 mb-10 font-medium max-w-lg ml-auto reveal-up">
@@ -305,152 +305,179 @@
     </section>
 
     <!-- Product Spotlight -->
+    <!-- Products & Bundles Section -->
     <section id="products" class="py-24 lg:py-40 max-w-[1440px] mx-auto px-6">
-        <div class="text-center mb-24">
-            <h2 class="text-4xl md:text-6xl font-bold mb-6">Designed for <br><span class="italic font-light">Peak
-                    Performance</span>.</h2>
-            <p class="text-gray-500 max-w-xl mx-auto">Scientifically formulated juices using the cold press method to
-                ensure every drop is packed with enzymes and vitamins.</p>
+        <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-6xl font-bold mb-6">Choose Your <br><span
+                    class="italic font-light">Bundle</span>.</h2>
+            <p class="text-gray-500 max-w-xl mx-auto text-lg">Delivered the day after tomorrow. Order before 10am for
+                same-day delivery (5hr window).</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-32">
-            <!-- Left: Floating Product -->
-            <div class="relative group">
-                <div
-                    class="aspect-square bg-brand-stone rounded-5xl overflow-hidden flex items-center justify-center p-12 transition-transform duration-700 group-hover:scale-[1.02]">
-                    <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=800"
-                        alt="Juice"
-                        class="max-w-[80%] h-auto rounded-3xl product-image-container group-hover:-translate-y-8 transition-transform duration-700">
+        <!-- Bundle Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20" id="bundle-grid">
+
+            <!-- Bundle 1: 12 Bottles -->
+            <div class="bg-white border-2 border-gray-100 rounded-5xl p-8 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer"
+                onclick="selectBundle(0)" id="bundle-0">
+                <div class="w-12 h-12 bg-brand-stone rounded-full flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-bottle-water text-brand-charcoal"></i>
                 </div>
-                <!-- Floating Info Card -->
-                <div
-                    class="absolute -bottom-6 -right-6 md:right-12 bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 max-w-[200px] reveal-up">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fa-solid fa-star text-brand-gold text-xs"></i>
-                        <i class="fa-solid fa-star text-brand-gold text-xs"></i>
-                        <i class="fa-solid fa-star text-brand-gold text-xs"></i>
-                        <i class="fa-solid fa-star text-brand-gold text-xs"></i>
-                        <i class="fa-solid fa-star text-brand-gold text-xs"></i>
-                    </div>
-                    <p class="text-sm font-bold mb-1">Selling Fast</p>
-                    <p class="text-[10px] text-gray-500 font-medium">12 orders in the last hour</p>
-                </div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-2">Starter</span>
+                <h3 class="text-3xl font-bold mb-2">12 Bottles</h3>
+                <div class="text-4xl font-bold text-brand-charcoal mb-1">R 399</div>
+                <p class="text-sm text-gray-400 mb-6">R33.25 per bottle</p>
+                <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-grow">
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i>Standard delivery
+                        within 7km: R9/km</li>
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i>After 7km: R16/km
+                    </li>
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i>Same-day (pre-10am):
+                        R25/km</li>
+                </ul>
+                <button onclick="selectBundle(0)"
+                    class="w-full py-4 bg-brand-charcoal text-white rounded-full font-bold hover:bg-brand-gold transition-colors">Select
+                    Bundle</button>
             </div>
 
-            <!-- Right: Details -->
-            <div class="space-y-10">
+            <!-- Bundle 2: 24 Bottles (Most Popular) -->
+            <div class="bg-brand-charcoal text-white border-2 border-brand-charcoal rounded-5xl p-8 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer scale-[1.02]"
+                onclick="selectBundle(1)" id="bundle-1">
+                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-fire text-brand-gold"></i>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-2">Most Popular</span>
+                <h3 class="text-3xl font-bold mb-2">24 Bottles</h3>
+                <div class="text-4xl font-bold text-white mb-1">R 589</div>
+                <p class="text-sm text-white/50 mb-6">R24.54 per bottle</p>
+                <ul class="space-y-3 text-sm text-white/70 mb-8 flex-grow">
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i><span>Free delivery
+                            within 7km</span></li>
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i><span>After 7km:
+                            R11/km</span></li>
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i><span>Same-day
+                            (pre-10am): R25/km</span></li>
+                </ul>
+                <button onclick="selectBundle(1)"
+                    class="w-full py-4 bg-brand-gold text-white rounded-full font-bold hover:bg-white hover:text-brand-charcoal transition-colors">Select
+                    Bundle</button>
+            </div>
+
+            <!-- Bundle 3: 54 Bottles -->
+            <div class="bg-white border-2 border-gray-100 rounded-5xl p-8 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer"
+                onclick="selectBundle(2)" id="bundle-2">
+                <div class="w-12 h-12 bg-brand-stone rounded-full flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-boxes-stacked text-brand-charcoal"></i>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-2">Family Pack</span>
+                <h3 class="text-3xl font-bold mb-2">54 Bottles</h3>
+                <div class="text-4xl font-bold text-brand-charcoal mb-1">R 1,729</div>
+                <p class="text-sm text-gray-400 mb-6">R32.02 per bottle</p>
+                <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-grow">
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i>Standard delivery
+                        within 7km: R9/km</li>
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i>After 7km: R16/km
+                    </li>
+                    <li class="flex gap-2"><i class="fa-solid fa-check text-brand-gold mt-0.5"></i>Same-day (pre-10am):
+                        R25/km</li>
+                </ul>
+                <button onclick="selectBundle(2)"
+                    class="w-full py-4 bg-brand-charcoal text-white rounded-full font-bold hover:bg-brand-gold transition-colors">Select
+                    Bundle</button>
+            </div>
+        </div>
+
+        <!-- Delivery Calculator -->
+        <div id="order-form"
+            class="max-w-2xl mx-auto bg-white rounded-5xl border-2 border-brand-charcoal/5 shadow-2xl p-10 hidden">
+            <h3 class="text-2xl font-bold mb-2">Complete Your Order</h3>
+            <p class="text-gray-400 text-sm mb-8">We'll calculate your delivery cost automatically.</p>
+
+            <div class="space-y-6">
+                <!-- Selected Bundle display -->
+                <div id="selected-bundle-display"
+                    class="bg-brand-stone/40 rounded-3xl p-6 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Selected Bundle</p>
+                        <p id="selected-bundle-name" class="text-xl font-bold">—</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Bundle Price</p>
+                        <p id="selected-bundle-price" class="text-2xl font-bold text-brand-charcoal">R —</p>
+                    </div>
+                </div>
+
+                <!-- Name -->
                 <div>
-                    <span
-                        class="bg-brand-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full animate-urgency inline-block mb-6">Signature
-                        Blend</span>
-                    <h3 class="text-4xl md:text-5xl font-bold mb-4">Classic Orange</h3>
-                    <div class="flex items-center gap-4 mb-6">
-                        <span class="text-3xl font-bold text-brand-charcoal">R 45.00</span>
-                        <span class="text-xl text-gray-300 line-through">R 55.00</span>
-                    </div>
-                    <p class="text-gray-500 text-lg leading-relaxed mb-8">
-                        The gold standard of pure citrus. Harvested at peak ripeness from the Sundays River Valley,
-                        cold-pressed within hours to preserve every milligram of Vitamin C.
-                    </p>
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded-full bg-brand-sage flex items-center justify-center">
-                                <i class="fa-solid fa-check text-[10px] text-brand-charcoal"></i>
-                            </div>
-                            <span class="font-medium">100% Pure Valencia Oranges</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded-full bg-brand-sage flex items-center justify-center">
-                                <i class="fa-solid fa-check text-[10px] text-brand-charcoal"></i>
-                            </div>
-                            <span class="font-medium">Rich in Bio-available Vitamin C</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded-full bg-brand-sage flex items-center justify-center">
-                                <i class="fa-solid fa-check text-[10px] text-brand-charcoal"></i>
-                            </div>
-                            <span class="font-medium">No added sugars or preservatives</span>
-                        </li>
-                    </ul>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <button onclick="addToCart('Classic Orange', 45)"
-                            class="bg-brand-charcoal text-white py-5 rounded-full font-bold shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group">
-                            Add to Basket
-                            <i class="fa-solid fa-basket-shopping transition-transform group-hover:scale-110"></i>
-                        </button>
-                        <button onclick="expressCheckout('Classic Orange', 45)"
-                            class="bg-brand-gold text-white py-5 rounded-full font-bold shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group">
-                            Express Buy
-                            <i class="fa-solid fa-bolt transition-transform group-hover:translate-x-1"></i>
-                        </button>
-                    </div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-2">Your
+                        Name</label>
+                    <input type="text" id="order-name" placeholder="Name for delivery"
+                        class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
                 </div>
-            </div>
-        </div>
 
-        <!-- Product Grid (Rest of Collection) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24" id="product-grid">
-            <div class="h-80 bg-brand-stone rounded-4xl overflow-hidden mb-8 flex items-center justify-center p-8 cursor-pointer"
-                onclick="openProductModal('Green Glow')">
-                <img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&q=80&w=800"
-                    alt="Green Glow"
-                    class="max-h-full w-auto object-contain rounded-2xl group-hover:scale-110 transition-transform duration-700">
-            </div>
-            <div class="flex justify-between items-start mb-4">
-                <div class="cursor-pointer" onclick="openProductModal('Green Glow')">
-                    <h4 class="text-2xl font-bold mb-1">Green Glow</h4>
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase italic">The Detoxifier</p>
-                </div>
-                <span class="text-xl font-bold">R 55</span>
-            </div>
-            <button onclick="addToCart('Green Glow', 55)"
-                class="w-full py-4 border-2 border-brand-charcoal rounded-full font-bold hover:bg-brand-charcoal hover:text-white transition-all transform group-active:scale-95">
-                Add to Basket
-            </button>
-        </div>
-
-        <!-- Product 3 -->
-        <div
-            class="bg-white p-6 rounded-5xl border border-gray-100 hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 group">
-            <div class="h-80 bg-brand-stone rounded-4xl overflow-hidden mb-8 flex items-center justify-center p-8 cursor-pointer"
-                onclick="openProductModal('Ruby Roots')">
-                <img src="https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&q=80&w=800"
-                    alt="Ruby Roots"
-                    class="max-h-full w-auto object-contain rounded-2xl group-hover:scale-110 transition-transform duration-700">
-            </div>
-            <div class="flex justify-between items-start mb-4">
-                <div class="cursor-pointer" onclick="openProductModal('Ruby Roots')">
-                    <h4 class="text-2xl font-bold mb-1">Ruby Roots</h4>
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase italic">The Energizer</p>
-                </div>
-                <span class="text-xl font-bold">R 50</span>
-            </div>
-            <button onclick="addToCart('Ruby Roots', 50)"
-                class="w-full py-4 border-2 border-brand-charcoal rounded-full font-bold hover:bg-brand-charcoal hover:text-white transition-all transform group-active:scale-95">
-                Add to Basket
-            </button>
-        </div>
-
-        <!-- Product 4 -->
-        <div
-            class="bg-white p-6 rounded-5xl border border-gray-100 hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 group">
-            <div class="h-80 bg-brand-stone rounded-4xl overflow-hidden mb-8 flex items-center justify-center p-8">
-                <img src="https://images.unsplash.com/photo-1615485290382-441e4d0c9cb5?auto=format&fit=crop&q=80&w=800"
-                    alt="Ginger Shield"
-                    class="max-h-full w-auto object-contain rounded-2xl group-hover:scale-110 transition-transform duration-700">
-            </div>
-            <div class="flex justify-between items-start mb-4">
+                <!-- Address -->
                 <div>
-                    <h4 class="text-2xl font-bold mb-1">Ginger Shield</h4>
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase italic">The Protector</p>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-2">Delivery
+                        Address</label>
+                    <input type="text" id="order-address" placeholder="E.g. 14 Jan Smuts Ave, Parktown, Johannesburg"
+                        class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
+                    <p class="text-[10px] text-gray-400 mt-2">We calculate from Rosebank Mall, Johannesburg</p>
                 </div>
-                <span class="text-xl font-bold">R 25</span>
+
+                <!-- Delivery Type -->
+                <div>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-3">Delivery
+                        Time</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button type="button" id="btn-standard" onclick="setDeliveryType('standard')"
+                            class="py-4 rounded-2xl border-2 border-brand-charcoal bg-brand-charcoal text-white font-bold text-sm transition-all">
+                            <i class="fa-solid fa-calendar-day mr-2"></i>Day After Tomorrow
+                        </button>
+                        <button type="button" id="btn-sameday" onclick="setDeliveryType('sameday')"
+                            class="py-4 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold text-sm transition-all hover:border-brand-charcoal">
+                            <i class="fa-solid fa-bolt mr-2"></i>Same Day <span
+                                class="text-[10px] block font-normal">Before 10am only</span>
+                        </button>
+                    </div>
+                    <p id="sameday-warning" class="hidden text-brand-red text-xs font-bold mt-2">⚠ Same-day orders must
+                        be placed before 10:00am. Current time is past cutoff.</p>
+                </div>
+
+                <!-- Calculate Button -->
+                <button onclick="calculateDelivery()" id="calc-btn"
+                    class="w-full py-5 bg-brand-stone rounded-2xl font-bold text-brand-charcoal hover:bg-brand-charcoal hover:text-white transition-all flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost
+                </button>
+
+                <!-- Delivery Result -->
+                <div id="delivery-result" class="hidden bg-brand-sage/50 rounded-3xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Distance</p>
+                            <p id="delivery-distance" class="text-lg font-bold">— km</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Delivery Cost</p>
+                            <p id="delivery-cost" class="text-2xl font-bold text-brand-charcoal">R —</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-brand-charcoal/10 pt-4 flex justify-between items-center">
+                        <p class="font-bold text-gray-500">Total (incl. delivery)</p>
+                        <p id="order-total" class="text-3xl font-bold text-brand-charcoal">R —</p>
+                    </div>
+                    <p id="delivery-time-note" class="text-xs text-gray-400 mt-3 text-center"></p>
+                </div>
+
+                <!-- Checkout Buttons -->
+                <div id="checkout-btns" class="hidden grid grid-cols-1 gap-4">
+                    <button onclick="checkoutBundleWhatsApp()"
+                        class="w-full bg-[#25D366] text-white py-5 rounded-full font-bold text-lg shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Order via WhatsApp
+                    </button>
+                </div>
             </div>
-            <button onclick="addToCart('Ginger Shield', 25)"
-                class="w-full py-4 border-2 border-brand-charcoal rounded-full font-bold hover:bg-brand-charcoal hover:text-white transition-all transform group-active:scale-95">
-                Add to Basket
-            </button>
-        </div>
         </div>
     </section>
 
@@ -829,8 +856,167 @@
         const WHATSAPP_NUMBER = "27684310296";
         const YOCO_BASE_URL = "https://pay.yoco.com/chanta";
 
+        // Rosebank Mall coordinates (origin for delivery calculations)
+        const ROSEBANK_LAT = -26.1473;
+        const ROSEBANK_LNG = 28.0446;
+
+        // Bundle definitions
+        const BUNDLES = [
+            { name: "12 Bottles", price: 399, freeKm: 0, rateUnder: 9, rateOver: 16 },
+            { name: "24 Bottles", price: 589, freeKm: 7, rateUnder: 0, rateOver: 11 },
+            { name: "54 Bottles", price: 1729, freeKm: 0, rateUnder: 9, rateOver: 16 },
+        ];
+
+        let selectedBundle = null;
+        let deliveryType = 'standard'; // 'standard' or 'sameday'
+        let calculatedDeliveryCost = 0;
+        let calculatedDistance = 0;
+
         // APP STATE
         let cart = [];
+
+        // --- BUNDLE FUNCTIONS ---
+        function selectBundle(index) {
+            selectedBundle = index;
+            // Highlight selected
+            [0, 1, 2].forEach(i => {
+                const el = document.getElementById('bundle-' + i);
+                if (el) el.classList.toggle('ring-4', i === index);
+                if (el) el.classList.toggle('ring-brand-gold', i === index);
+            });
+            const b = BUNDLES[index];
+            document.getElementById('selected-bundle-name').textContent = b.name;
+            document.getElementById('selected-bundle-price').textContent = 'R ' + b.price.toFixed(2);
+            const form = document.getElementById('order-form');
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Reset delivery result
+            document.getElementById('delivery-result').classList.add('hidden');
+            document.getElementById('checkout-btns').classList.add('hidden');
+        }
+
+        function setDeliveryType(type) {
+            const now = new Date();
+            const hour = now.getHours();
+            if (type === 'sameday' && hour >= 10) {
+                document.getElementById('sameday-warning').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('sameday-warning').classList.add('hidden');
+            deliveryType = type;
+            document.getElementById('btn-standard').className = type === 'standard'
+                ? 'py-4 rounded-2xl border-2 border-brand-charcoal bg-brand-charcoal text-white font-bold text-sm transition-all'
+                : 'py-4 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold text-sm transition-all hover:border-brand-charcoal';
+            document.getElementById('btn-sameday').className = type === 'sameday'
+                ? 'py-4 rounded-2xl border-2 border-brand-charcoal bg-brand-charcoal text-white font-bold text-sm transition-all'
+                : 'py-4 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold text-sm transition-all hover:border-brand-charcoal';
+        }
+
+        // Haversine formula — straight-line km between two lat/lng points
+        function haversineKm(lat1, lng1, lat2, lng2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        function calcDeliveryCost(km, bundleIndex, type) {
+            if (type === 'sameday') return Math.round(km * 25);
+            const b = BUNDLES[bundleIndex];
+            if (b.freeKm > 0 && km <= b.freeKm) return 0;
+            if (km <= 7) return Math.round(km * b.rateUnder);
+            // First 7km at rateUnder, rest at rateOver
+            const first7 = b.rateUnder === 0 ? 0 : 7 * b.rateUnder;
+            return Math.round(first7 + (km - 7) * b.rateOver);
+        }
+
+        async function calculateDelivery() {
+            if (selectedBundle === null) { alertModal('Please select a bundle first.'); return; }
+            const address = document.getElementById('order-address').value.trim();
+            if (!address) { alertModal('Please enter your delivery address.'); return; }
+
+            const btn = document.getElementById('calc-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Locating address...';
+            btn.disabled = true;
+
+            try {
+                const query = encodeURIComponent(address + ', Johannesburg, South Africa');
+                const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
+                const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+                const data = await res.json();
+
+                if (!data.length) {
+                    alertModal('Address not found. Try adding more detail, e.g. suburb and city.');
+                    btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
+                    btn.disabled = false;
+                    return;
+                }
+
+                const lat = parseFloat(data[0].lat);
+                const lng = parseFloat(data[0].lon);
+                const km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
+                calculatedDistance = km;
+                calculatedDeliveryCost = calcDeliveryCost(km, selectedBundle, deliveryType);
+
+                const bundlePrice = BUNDLES[selectedBundle].price;
+                const total = bundlePrice + calculatedDeliveryCost;
+
+                document.getElementById('delivery-distance').textContent = km.toFixed(1) + ' km';
+                document.getElementById('delivery-cost').textContent = calculatedDeliveryCost === 0 ? 'FREE' : 'R ' + calculatedDeliveryCost;
+                document.getElementById('order-total').textContent = 'R ' + total.toFixed(2);
+
+                const now = new Date();
+                const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 2);
+                const dayStr = tomorrow.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long' });
+                if (deliveryType === 'sameday') {
+                    const cutoff = new Date(now); cutoff.setHours(10, 0, 0, 0);
+                    const eta = new Date(now.getTime() + 5 * 60 * 60 * 1000);
+                    document.getElementById('delivery-time-note').textContent = `Estimated delivery by ${eta.getHours()}:00 today (5-hour window)`;
+                } else {
+                    document.getElementById('delivery-time-note').textContent = `Estimated delivery: ${dayStr}`;
+                }
+
+                document.getElementById('delivery-result').classList.remove('hidden');
+                document.getElementById('checkout-btns').classList.remove('hidden');
+            } catch (e) {
+                alertModal('Could not calculate delivery. Please try again or contact us on WhatsApp.');
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Recalculate';
+            btn.disabled = false;
+        }
+
+        async function checkoutBundleWhatsApp() {
+            const name = document.getElementById('order-name').value.trim();
+            const address = document.getElementById('order-address').value.trim();
+            if (!name || !address) { alertModal('Please fill in your name and delivery address.'); return; }
+
+            const b = BUNDLES[selectedBundle];
+            const total = b.price + calculatedDeliveryCost;
+            const deliveryNote = calculatedDeliveryCost === 0 ? 'FREE' : `R ${calculatedDeliveryCost}`;
+            const typeLabel = deliveryType === 'sameday' ? 'Same-Day' : 'Day After Tomorrow';
+
+            const message =
+                `🍊 *CHANTA ORDER* 🍊\n\n` +
+                `*Bundle:* ${b.name}\n` +
+                `*Bundle Price:* R ${b.price}\n` +
+                `*Delivery:* ${deliveryNote} (${calculatedDistance.toFixed(1)}km, ${typeLabel})\n` +
+                `*TOTAL:* R ${total.toFixed(2)}\n\n` +
+                `*Customer:* ${name}\n` +
+                `*Address:* ${address}\n\n` +
+                `Awaiting refreshment! 🍊`;
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function sendPartnershipEnquiry() {
+            const name = document.getElementById('partner-name').value.trim();
+            const msg = document.getElementById('partner-message').value.trim();
+            if (!name) { alertModal('Please enter your name or business name.'); return; }
+            const message = `🤝 *PARTNERSHIP ENQUIRY*\n\n*From:* ${name}\n\n${msg || 'Interested in stocking Chanta.'}`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
 
         // LENIS SMOOTH SCROLL
         const lenis = new Lenis()
