@@ -47,7 +47,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Hardware acceleration */
         .accelerated {
             will-change: transform, opacity;
             transform: translate3d(0, 0, 0);
@@ -93,9 +92,19 @@
             display: flex;
             white-space: nowrap;
             align-items: center;
+            padding-left: 20vw;
+            /* Start with some breathing room */
         }
 
-        .ticker-text {
+        .word-box {
+            display: inline-flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+            margin-right: clamp(1rem, 4vw, 3rem);
+        }
+
+        .ticker-text-block {
             display: flex;
             align-items: center;
             font-size: clamp(3rem, 12vw, 12rem);
@@ -103,7 +112,6 @@
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: -0.04em;
-            padding-right: 2rem;
         }
 
         /* Styles */
@@ -134,7 +142,6 @@
             justify-content: center;
             z-index: 60;
             background-color: #F97316;
-            /* Chanta Orange */
             opacity: 0;
             pointer-events: none;
         }
@@ -170,56 +177,40 @@
             opacity: 0.3;
             mix-blend-difference: exclusion;
         }
-
-        /* Hide footer on mobile if crowded */
-        @media (max-width: 640px) {
-            .ticker-text {
-                padding-right: 1rem;
-            }
-
-            .mx-4 {
-                margin-left: 0.5rem;
-                margin-right: 0.5rem;
-            }
-        }
     </style>
 </head>
 
 <body>
-    <!-- Scroll depth manager - Reduced for snappier feel -->
-    <div style="height: 700vh;"></div>
+    <div style="height: 800vh;"></div>
 
     <!-- 1. INTRO -->
     <section id="intro" class="accelerated">
         <div class="scroll-text">Scroll</div>
     </section>
 
-    <!-- 2. TICKER -->
+    <!-- 2. TICKER (SINGLE PASS) -->
     <div class="ticker-wrapper accelerated" id="ticker-wrap">
         <div class="ticker-container accelerated" id="ticker">
-            <div class="ticker-text">
-                <span>In every</span>
-                <img src="logo-transparent.png" alt="Chanta" class="juice-logo">
-                <span>bottle, discover the undeniable</span>
-                <span class="real-magic mx-2 md:mx-4">Real Magic</span>
-                <svg viewBox="0 0 24 24" class="sparkle">
-                    <path d="M12,2L14.8,8.2L21,11L14.8,13.8L12,20L9.2,13.8L3,11L9.2,8.2L12,2Z" />
-                </svg>
-                <span>of sharing pure</span>
-                <span class="refreshment mx-2 md:mx-4">Refreshment</span>
-                <span>that brings us</span>
-                <span class="together mx-2 md:mx-4">Together</span>
-            </div>
-            <!-- Duplicate for continuity -->
-            <div class="ticker-text">
-                <span>In every</span>
-                <img src="logo-transparent.png" alt="Chanta" class="juice-logo">
-                <span>bottle, discover the undeniable</span>
-                <span class="real-magic mx-2 md:mx-4">Real Magic</span>
-                <span>of sharing pure</span>
-                <span class="refreshment mx-2 md:mx-4">Refreshment</span>
-                <span>that brings us</span>
-                <span class="together mx-2 md:mx-4">Together</span>
+            <div class="ticker-text-block">
+                <div class="word-box">In</div>
+                <div class="word-box">every</div>
+                <div class="word-box"><img src="logo-transparent.png" alt="Chanta" class="juice-logo"></div>
+                <div class="word-box">bottle,</div>
+                <div class="word-box">discover</div>
+                <div class="word-box">the</div>
+                <div class="word-box">undeniable</div>
+                <div class="word-box"><span class="real-magic">Real Magic</span></div>
+                <div class="word-box"><svg viewBox="0 0 24 24" class="sparkle">
+                        <path d="M12,2L14.8,8.2L21,11L14.8,13.8L12,20L9.2,13.8L3,11L9.2,8.2L12,2Z" />
+                    </svg></div>
+                <div class="word-box">of</div>
+                <div class="word-box">sharing</div>
+                <div class="word-box">pure</div>
+                <div class="word-box"><span class="refreshment">Refreshment</span></div>
+                <div class="word-box">that</div>
+                <div class="word-box">brings</div>
+                <div class="word-box">us</div>
+                <div class="word-box"><span class="together">Together</span></div>
             </div>
         </div>
     </div>
@@ -229,8 +220,7 @@
         <div class="outro-content accelerated">
             <img src="logo-transparent.png" alt="Chanta" class="w-32 md:w-64 mx-auto mb-6 filter brightness-0 invert">
             <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-widest italic opacity-80">Coming soon... Ah
-                chanta
-            </h2>
+                chanta</h2>
         </div>
     </section>
 
@@ -239,60 +229,72 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // Lenis Smooth Scroll - Optimized for performance
         const lenis = new Lenis({
-            duration: 1, // Faster duration
+            duration: 1.2,
             smoothWheel: true,
-            touchMultiplier: 2, // Better mobile feel
-            infinite: false
+            touchMultiplier: 2,
         });
 
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        // Master Timeline - Optimized with scrub: true
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: "body",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: true, // More direct response
+                scrub: 1, // Slightly higher scrub for professional smoothness
                 invalidateOnRefresh: true
             }
         });
 
-        // 1. Intro fades out quickly
-        tl.to("#intro", { opacity: 0, y: -20, duration: 1 });
+        // 1. Intro fades out
+        tl.to("#intro", { opacity: 0, scale: 1.1, duration: 1 });
 
-        // 2. Ticker fades in & scrolls
-        tl.to("#ticker-wrap", { opacity: 1, duration: 1 }, "-=0.5");
+        // 2. Ticker fades in
+        tl.to("#ticker-wrap", { opacity: 1, duration: 0.5 }, "-=0.3");
+
+        // 3. Word-by-word animation as the container moves
+        const words = gsap.utils.toArray(".word-box");
+        const ticker = document.querySelector('#ticker');
+        const scrollDistance = ticker.scrollWidth - window.innerWidth + (window.innerWidth * 0.4);
+
+        // Move the container
         tl.to("#ticker", {
-            x: () => -(document.querySelector('#ticker').scrollWidth - window.innerWidth),
+            x: -scrollDistance,
             ease: "none",
-            duration: 10
+            duration: 15
+        }, "tickerStart");
+
+        // Stagger the entrance of each word box
+        words.forEach((word, i) => {
+            tl.to(word, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power2.out"
+            }, `tickerStart+=${i * 0.4}`); // Staggered start timing
         });
 
-        // 3. Ticker fades out
-        tl.to("#ticker-wrap", { opacity: 0, y: 20, duration: 1 });
+        // 4. Fade out ticker wrap near the end
+        tl.to("#ticker-wrap", { opacity: 0, y: -20, duration: 2 }, "-=2");
 
-        // 4. Orange Outro bursts in
+        // 5. Orange Outro bursts in
         tl.fromTo("#outro",
             { opacity: 0, scale: 1.2 },
-            { opacity: 1, scale: 1, duration: 1 },
-            "-=0.5"
+            { opacity: 1, scale: 1, duration: 2 },
+            "-=1"
         );
-        tl.to(".outro-content", { opacity: 1, scale: 1, duration: 0.5 }, "-=0.5");
+        tl.to(".outro-content", { opacity: 1, scale: 1, duration: 1 }, "-=1");
 
-        // 5. Orange transitions to Green
-        tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 2 }, "+=0.5");
+        // 6. Orange transitions to Green
+        tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 3 }, "+=0.5");
 
-        // Simple rotation for sparkle - low perf cost
+        // Sparkle rotation
         gsap.to(".sparkle", { rotation: 360, duration: 10, repeat: -1, ease: "none" });
 
-        // Refresh ScrollTrigger on resize to handle mobile orientation shifts
         window.addEventListener('resize', () => ScrollTrigger.refresh());
-
     </script>
 </body>
 
