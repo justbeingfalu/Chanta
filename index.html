@@ -11,31 +11,19 @@
         rel="stylesheet">
 
     <!-- Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#FDFCF8',
-                            charcoal: '#1C1C1C',
-                            orange: '#F97316',
-                            green: '#2D3A2D',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
         :root {
             --bg-color: #1C1C1C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
@@ -43,13 +31,7 @@
             color: #FDFCF8;
             font-family: 'General Sans', sans-serif;
             overflow-x: hidden;
-            margin: 0;
             -webkit-font-smoothing: antialiased;
-        }
-
-        .accelerated {
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
         }
 
         /* Opening Section */
@@ -73,7 +55,7 @@
             opacity: 0.5;
         }
 
-        /* Ticker Wrapper */
+        /* Ticker */
         .ticker-wrapper {
             width: 100%;
             height: 100vh;
@@ -93,7 +75,6 @@
             white-space: nowrap;
             align-items: center;
             padding-left: 30vw;
-            /* Start with more space */
         }
 
         .word-box {
@@ -104,12 +85,10 @@
             margin-right: clamp(1rem, 4vw, 3rem);
         }
 
-        /* Logo box stays visible/clear */
+        /* Logo inside ticker - NOT animated, natural size */
         .logo-box {
             display: inline-flex;
             align-items: center;
-            opacity: 1;
-            transform: none;
             margin-right: clamp(1rem, 4vw, 3rem);
         }
 
@@ -123,7 +102,7 @@
             letter-spacing: -0.04em;
         }
 
-        /* Styles */
+        /* Word styles */
         .real-magic {
             font-style: italic;
             font-weight: 900;
@@ -139,7 +118,21 @@
             font-weight: 300;
         }
 
-        /* Closing Section */
+        /* Inline logo — sized to match text height, no filter */
+        .juice-logo {
+            height: 0.75em;
+            width: auto;
+            display: block;
+        }
+
+        .sparkle {
+            color: #D4AF37;
+            width: 0.7em;
+            fill: currentColor;
+            margin: 0 0.1em;
+        }
+
+        /* Outro */
         #outro {
             height: 100vh;
             width: 100%;
@@ -155,25 +148,94 @@
             pointer-events: none;
         }
 
-        .outro-content {
+        /* Two layers inside outro: brand payoff and countdown */
+        .outro-inner {
+            position: relative;
             text-align: center;
-            transform: scale(0.9);
-            opacity: 0;
             padding: 2rem;
+            width: 100%;
         }
 
-        /* Icons */
-        .juice-logo {
-            height: 0.8em;
-            margin: 0 0.2em;
-            filter: brightness(0) invert(1);
+        .brand-payoff {
+            opacity: 0;
+            transform: scale(0.9);
+            position: relative;
         }
 
-        .sparkle {
-            color: #D4AF37;
-            width: 0.7em;
-            fill: currentColor;
-            margin: 0 0.1em;
+        .countdown-wrap {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Outro logo — show in original colors (no filter) */
+        .outro-logo {
+            width: clamp(80px, 20vw, 200px);
+            height: auto;
+            display: block;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .outro-tagline {
+            font-size: clamp(1.2rem, 3vw, 2.5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-style: italic;
+            line-height: 1.3;
+            color: #fff;
+        }
+
+        /* Countdown */
+        .cd-label {
+            font-size: clamp(0.7rem, 1.5vw, 1rem);
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+        }
+
+        .cd-digits {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: clamp(1rem, 4vw, 3rem);
+        }
+
+        .cd-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cd-number {
+            font-size: clamp(3rem, 12vw, 9rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .cd-unit-label {
+            font-size: clamp(0.55rem, 1.2vw, 0.85rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.55);
+            margin-top: 0.4rem;
+        }
+
+        .cd-sep {
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.3);
+            padding-top: 0.1em;
         }
 
         /* HUD Logo */
@@ -184,34 +246,36 @@
             z-index: 100;
             width: clamp(40px, 5vw, 60px);
             opacity: 0.3;
-            mix-blend-difference: exclusion;
         }
     </style>
 </head>
 
 <body>
-    <div style="height: 1000vh;"></div>
+    <div style="height: 1100vh;"></div>
 
     <!-- 1. INTRO -->
-    <section id="intro" class="accelerated">
+    <section id="intro">
         <div class="scroll-text">Scroll</div>
     </section>
 
-    <!-- 2. TICKER (SINGLE PASS) -->
-    <div class="ticker-wrapper accelerated" id="ticker-wrap">
-        <div class="ticker-container accelerated" id="ticker">
+    <!-- 2. TICKER -->
+    <div class="ticker-wrapper" id="ticker-wrap">
+        <div class="ticker-container" id="ticker">
             <div class="ticker-text-block">
                 <div class="word-box">In</div>
                 <div class="word-box">every</div>
+                <!-- Logo: no animation, full natural colours -->
                 <div class="logo-box"><img src="logo-transparent.png" alt="Chanta" class="juice-logo"></div>
                 <div class="word-box">bottle,</div>
                 <div class="word-box">discover</div>
                 <div class="word-box">the</div>
                 <div class="word-box">undeniable</div>
-                <div class="word-box"><span class="real-magic">Real Magic</span></div>
-                <div class="word-box"><svg viewBox="0 0 24 24" class="sparkle">
+                <div class="word-box"><span class="real-magic">Real&nbsp;Magic</span></div>
+                <div class="word-box">
+                    <svg viewBox="0 0 24 24" class="sparkle">
                         <path d="M12,2L14.8,8.2L21,11L14.8,13.8L12,20L9.2,13.8L3,11L9.2,8.2L12,2Z" />
-                    </svg></div>
+                    </svg>
+                </div>
                 <div class="word-box">of</div>
                 <div class="word-box">sharing</div>
                 <div class="word-box">pure</div>
@@ -219,31 +283,92 @@
                 <div class="word-box">that</div>
                 <div class="word-box">brings</div>
                 <div class="word-box">us</div>
-                <div class="word-box"><span class="together">Together</span></div>
+                <div class="word-box" id="word-together"><span class="together">Together</span></div>
             </div>
         </div>
     </div>
 
     <!-- 3. OUTRO -->
-    <section id="outro" class="accelerated">
-        <div class="outro-content accelerated">
-            <img src="logo-transparent.png" alt="Chanta" class="w-32 md:w-64 mx-auto mb-6 filter brightness(0) invert">
-            <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-widest italic opacity-80">Coming
-                soon...<br>Ahh.. Chanta!</h2>
+    <section id="outro">
+        <div class="outro-inner">
+
+            <!-- Layer A: Brand payoff -->
+            <div class="brand-payoff" id="brand-payoff">
+                <!-- Original-colour logo (no filter) -->
+                <img src="logo-transparent.png" alt="Chanta" class="outro-logo">
+                <p class="outro-tagline">Coming soon...<br>Ahh.. Chanta!</p>
+            </div>
+
+            <!-- Layer B: Countdown -->
+            <div class="countdown-wrap" id="countdown-wrap">
+                <p class="cd-label">Launching Monday</p>
+                <div class="cd-digits">
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cd-days">00</span>
+                        <span class="cd-unit-label">Days</span>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cd-hours">00</span>
+                        <span class="cd-unit-label">Hours</span>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cd-mins">00</span>
+                        <span class="cd-unit-label">Min</span>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cd-secs">00</span>
+                        <span class="cd-unit-label">Sec</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <img src="logo-transparent.png" alt="Chanta" class="hud-logo filter brightness-0 invert pointer-events-none">
+    <img src="logo-transparent.png" alt="Chanta" class="hud-logo pointer-events-none" style="opacity:0.2;">
 
     <script>
+        // ─── Countdown ────────────────────────────────────────────────
+        function getNextMonday() {
+            const now = new Date();
+            const day = now.getDay(); // 0=Sun, 1=Mon … 6=Sat
+            const daysUntilMonday = day === 1 ? 7 : (8 - day) % 7 || 7;
+            const target = new Date(now);
+            target.setDate(now.getDate() + daysUntilMonday);
+            target.setHours(0, 0, 0, 0);
+            return target;
+        }
+
+        function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+        function tick() {
+            const diff = getNextMonday() - Date.now();
+            if (diff <= 0) {
+                document.getElementById('cd-days').textContent = '00';
+                document.getElementById('cd-hours').textContent = '00';
+                document.getElementById('cd-mins').textContent = '00';
+                document.getElementById('cd-secs').textContent = '00';
+                return;
+            }
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins = Math.floor((diff % 3600000) / 60000);
+            const secs = Math.floor((diff % 60000) / 1000);
+            document.getElementById('cd-days').textContent = pad(days);
+            document.getElementById('cd-hours').textContent = pad(hours);
+            document.getElementById('cd-mins').textContent = pad(mins);
+            document.getElementById('cd-secs').textContent = pad(secs);
+        }
+        tick();
+        setInterval(tick, 1000);
+
+        // ─── GSAP ─────────────────────────────────────────────────────
         gsap.registerPlugin(ScrollTrigger);
 
-        const lenis = new Lenis({
-            duration: 1.2,
-            smoothWheel: true,
-            touchMultiplier: 2,
-        });
-
+        const lenis = new Lenis({ duration: 1.2, smoothWheel: true, touchMultiplier: 2 });
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
@@ -258,51 +383,52 @@
             }
         });
 
-        // 1. Intro fades out
-        tl.to("#intro", { opacity: 0, scale: 1.1, duration: 1 });
+        // 1. Intro out
+        tl.to("#intro", { opacity: 0, scale: 1.08, duration: 1 });
 
-        // 2. Ticker fades in
+        // 2. Ticker in
         tl.to("#ticker-wrap", { opacity: 1, duration: 0.5 }, "-=0.3");
 
-        // 3. Narrative Flow
+        // 3. Horizontal scroll + word stagger
         const words = gsap.utils.toArray(".word-box");
         const ticker = document.querySelector('#ticker');
-        const scrollDistance = ticker.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
+        const getScrollDist = () => ticker.scrollWidth - window.innerWidth + window.innerWidth * 0.15;
 
-        // Move the container
         tl.to("#ticker", {
-            x: -scrollDistance,
+            x: () => -getScrollDist(),
             ease: "none",
-            duration: 20 // Slower for readability
+            duration: 20
         }, "tickerStart");
 
-        // Stagger the entrance of each word box (EXCEPT the logo box)
         words.forEach((word, i) => {
-            tl.to(word, {
-                opacity: 1,
-                y: 0,
-                duration: 1.5,
-                ease: "power2.out"
-            }, `tickerStart+=${i * 0.8}`); // More deliberate stagger
+            tl.to(word, { opacity: 1, y: 0, duration: 1.5, ease: "power2.out" },
+                `tickerStart+=${i * 0.75}`);
         });
 
-        // 4. Hold on "Together"
-        tl.to({}, { duration: 5 }); // Empty tween for hold
+        // 4. Hold on Together
+        tl.to({}, { duration: 6 });
 
-        // 5. Fade out ticker wrap
-        tl.to("#ticker-wrap", { opacity: 0, y: -20, duration: 2 });
+        // 5. Fade ticker out
+        tl.to("#ticker-wrap", { opacity: 0, duration: 2 });
 
-        // 6. Orange Outro bursts in
+        // 6. Orange burst
         tl.fromTo("#outro",
-            { opacity: 0, scale: 1.2 },
+            { opacity: 0, scale: 1.15 },
             { opacity: 1, scale: 1, duration: 2 }
         );
-        tl.to(".outro-content", { opacity: 1, scale: 1, duration: 1 }, "-=1.5");
 
-        // 7. Orange transitions to Green
-        tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 4 }, "+=1");
+        // 7. Brand payoff fades in
+        tl.to("#brand-payoff", { opacity: 1, scale: 1, duration: 1.5, ease: "power2.out" }, "-=1");
 
-        // Sparkle rotation
+        // 8. Hold a moment…
+        tl.to({}, { duration: 6 });
+
+        // 9. Transition: orange → green AND swap payoff → countdown
+        tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 3 });
+        tl.to("#brand-payoff", { opacity: 0, y: -30, duration: 1.2, ease: "power2.in" }, "-=2.5");
+        tl.to("#countdown-wrap", { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "power3.out" }, "-=1");
+
+        // Sparkle spin
         gsap.to(".sparkle", { rotation: 360, duration: 10, repeat: -1, ease: "none" });
 
         window.addEventListener('resize', () => ScrollTrigger.refresh());
