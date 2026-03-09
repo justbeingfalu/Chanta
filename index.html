@@ -92,8 +92,8 @@
             display: flex;
             white-space: nowrap;
             align-items: center;
-            padding-left: 20vw;
-            /* Start with some breathing room */
+            padding-left: 30vw;
+            /* Start with more space */
         }
 
         .word-box {
@@ -101,6 +101,15 @@
             align-items: center;
             opacity: 0;
             transform: translateY(20px);
+            margin-right: clamp(1rem, 4vw, 3rem);
+        }
+
+        /* Logo box stays visible/clear */
+        .logo-box {
+            display: inline-flex;
+            align-items: center;
+            opacity: 1;
+            transform: none;
             margin-right: clamp(1rem, 4vw, 3rem);
         }
 
@@ -181,7 +190,7 @@
 </head>
 
 <body>
-    <div style="height: 800vh;"></div>
+    <div style="height: 1000vh;"></div>
 
     <!-- 1. INTRO -->
     <section id="intro" class="accelerated">
@@ -194,7 +203,7 @@
             <div class="ticker-text-block">
                 <div class="word-box">In</div>
                 <div class="word-box">every</div>
-                <div class="word-box"><img src="logo-transparent.png" alt="Chanta" class="juice-logo"></div>
+                <div class="logo-box"><img src="logo-transparent.png" alt="Chanta" class="juice-logo"></div>
                 <div class="word-box">bottle,</div>
                 <div class="word-box">discover</div>
                 <div class="word-box">the</div>
@@ -218,9 +227,9 @@
     <!-- 3. OUTRO -->
     <section id="outro" class="accelerated">
         <div class="outro-content accelerated">
-            <img src="logo-transparent.png" alt="Chanta" class="w-32 md:w-64 mx-auto mb-6 filter brightness-0 invert">
-            <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-widest italic opacity-80">Coming soon... Ah
-                chanta</h2>
+            <img src="logo-transparent.png" alt="Chanta" class="w-32 md:w-64 mx-auto mb-6 filter brightness(0) invert">
+            <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-widest italic opacity-80">Coming
+                soon...<br>Ahh.. Chanta!</h2>
         </div>
     </section>
 
@@ -244,7 +253,7 @@
                 trigger: "body",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1, // Slightly higher scrub for professional smoothness
+                scrub: 1,
                 invalidateOnRefresh: true
             }
         });
@@ -255,41 +264,43 @@
         // 2. Ticker fades in
         tl.to("#ticker-wrap", { opacity: 1, duration: 0.5 }, "-=0.3");
 
-        // 3. Word-by-word animation as the container moves
+        // 3. Narrative Flow
         const words = gsap.utils.toArray(".word-box");
         const ticker = document.querySelector('#ticker');
-        const scrollDistance = ticker.scrollWidth - window.innerWidth + (window.innerWidth * 0.4);
+        const scrollDistance = ticker.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
 
         // Move the container
         tl.to("#ticker", {
             x: -scrollDistance,
             ease: "none",
-            duration: 15
+            duration: 20 // Slower for readability
         }, "tickerStart");
 
-        // Stagger the entrance of each word box
+        // Stagger the entrance of each word box (EXCEPT the logo box)
         words.forEach((word, i) => {
             tl.to(word, {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
+                duration: 1.5,
                 ease: "power2.out"
-            }, `tickerStart+=${i * 0.4}`); // Staggered start timing
+            }, `tickerStart+=${i * 0.8}`); // More deliberate stagger
         });
 
-        // 4. Fade out ticker wrap near the end
-        tl.to("#ticker-wrap", { opacity: 0, y: -20, duration: 2 }, "-=2");
+        // 4. Hold on "Together"
+        tl.to({}, { duration: 5 }); // Empty tween for hold
 
-        // 5. Orange Outro bursts in
+        // 5. Fade out ticker wrap
+        tl.to("#ticker-wrap", { opacity: 0, y: -20, duration: 2 });
+
+        // 6. Orange Outro bursts in
         tl.fromTo("#outro",
             { opacity: 0, scale: 1.2 },
-            { opacity: 1, scale: 1, duration: 2 },
-            "-=1"
+            { opacity: 1, scale: 1, duration: 2 }
         );
-        tl.to(".outro-content", { opacity: 1, scale: 1, duration: 1 }, "-=1");
+        tl.to(".outro-content", { opacity: 1, scale: 1, duration: 1 }, "-=1.5");
 
-        // 6. Orange transitions to Green
-        tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 3 }, "+=0.5");
+        // 7. Orange transitions to Green
+        tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 4 }, "+=1");
 
         // Sparkle rotation
         gsap.to(".sparkle", { rotation: 360, duration: 10, repeat: -1, ease: "none" });
