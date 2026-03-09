@@ -24,7 +24,6 @@
                         brand: {
                             bg: '#FDFCF8',
                             charcoal: '#1C1C1C',
-                            red: '#E11D48',
                             orange: '#F97316',
                             green: '#2D3A2D',
                         }
@@ -134,7 +133,8 @@
             align-items: center;
             justify-content: center;
             z-index: 60;
-            background-color: #E11D48;
+            background-color: #F97316;
+            /* Chanta Orange */
             opacity: 0;
             pointer-events: none;
         }
@@ -228,7 +228,8 @@
     <section id="outro" class="accelerated">
         <div class="outro-content accelerated">
             <img src="logo-transparent.png" alt="Chanta" class="w-32 md:w-64 mx-auto mb-6 filter brightness-0 invert">
-            <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-widest italic opacity-80">Sigh... Ah, Chanta.
+            <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-widest italic opacity-80">Coming soon... Ah
+                chanta
             </h2>
         </div>
     </section>
@@ -275,7 +276,7 @@
         // 3. Ticker fades out
         tl.to("#ticker-wrap", { opacity: 0, y: 20, duration: 1 });
 
-        // 4. Red Outro bursts in
+        // 4. Orange Outro bursts in
         tl.fromTo("#outro",
             { opacity: 0, scale: 1.2 },
             { opacity: 1, scale: 1, duration: 1 },
@@ -283,7 +284,7 @@
         );
         tl.to(".outro-content", { opacity: 1, scale: 1, duration: 0.5 }, "-=0.5");
 
-        // 5. Red transitions to Green
+        // 5. Orange transitions to Green
         tl.to("#outro", { backgroundColor: "#2D3A2D", duration: 2 }, "+=0.5");
 
         // Simple rotation for sparkle - low perf cost
