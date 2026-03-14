@@ -1,18 +1,19 @@
+# Chanta Store Index (Test Version)
+
+This file contains the current working code for the Chanta Landing Page & Store (`index-store-test.html`), including the layered horizontal scroll architecture and delivery calculator logic.
+
+```html
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chanta Store</title>
-
-    <!-- Fonts -->
-    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+    <title>Chanta | Cold-Pressed Organic Orange Juice</title>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,103 +21,114 @@
                 extend: {
                     colors: {
                         brand: {
-                            yellow: '#F9D151',
-                            gold: '#D4AF37',
-                            charcoal: '#242424',
-                            sage: '#E3EDE8',
-                            earth: '#8B7355',
-                            cream: '#FDFCF8',
-                            forest: '#2D3A2D',
-                            red: '#D9381E',
-                            stone: '#E8E6DF'
+                            gold: '#D4AF37',     // The juice
+                            forest: '#2A3B24',   // The leaves
+                            sage: '#E8EAE3',     // Light background
+                            charcoal: '#242424', // Typography
+                            stone: '#D9D9D9'     // Neutral accents
                         }
                     },
-                    borderRadius: {
-                        '4xl': '2rem',
-                        '5xl': '3rem',
+                    fontFamily: {
+                        sans: ['"General Sans"', 'system-ui', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
 
+    <!-- General Sans Font -->
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
     <style>
         :root {
-            --bg-color: #FDFCF8;
-            --bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --curve: cubic-bezier(0.85, 0, 0.15, 1);
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: var(--bg-noise);
+            background-color: #FDFCF8;
             color: #242424;
-            font-family: 'General Sans', sans-serif;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'General Sans', sans-serif;
+            background-image: 
+                radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(42, 59, 36, 0.03) 0%, transparent 40%);
+            margin: 0;
+            padding: 0;
         }
 
-        /* Opening Section */
+        ::selection {
+            background: #D4AF37;
+            color: white;
+        }
+
+        /* Hero Outro / Intro */
         #intro {
             height: 100vh;
-            width: 100%;
+            width: 100vw;
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 50;
+            z-index: 20;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
             align-items: center;
-            overflow: hidden;
-            background-color: var(--bg-color);
+            justify-content: center;
+            background: #FDFCF8;
         }
 
         .hero-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            z-index: -1;
-            /* Optional: add a slight gradient overlay to ensure text visibility */
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+            width: 40vw;
+            height: auto;
+            max-width: 800px;
+            object-fit: contain;
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
         }
 
+        /* Scroll Indication line */
         .scroll-indicator {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: #242424;
-            margin-bottom: 3rem;
+            position: absolute;
+            bottom: 3vh;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            opacity: 0.6;
+            color: #D4AF37;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
         }
 
         .scroll-line {
             width: 1px;
-            height: 40px;
-            background-color: #242424;
-            animation: pulse-line 2s infinite ease-in-out;
+            height: 8vh;
+            background: rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes pulse-line {
-            0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
-            50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
-            50.1% { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
-            100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #D4AF37;
+            animation: scrollLineDrop 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+        }
+
+        @keyframes scrollLineDrop {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
         }
 
         /* Ticker */
@@ -348,135 +360,137 @@
         <div class="flex-grow overflow-y-auto overscroll-contain p-8 custom-scrollbar" data-lenis-prevent="true">
             <div id="order-form" class="w-full">
                 <div class="space-y-6">
-                    <div id="selected-bundle-display" class="bg-brand-stone/40 rounded-3xl p-6 flex flex-col gap-4">
-                        <div class="flex justify-between items-center">
+                    <!-- Selected Bundle Display -->
+                    <div class="bg-brand-sage/30 rounded-2xl p-6 border border-brand-charcoal/5">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Selected Bundle</p>
-                                <p id="selected-bundle-name" class="text-xl font-bold">—</p>
+                                <h4 id="selected-bundle-name" class="font-bold text-lg">Bundle Name</h4>
+                                <p id="selected-bundle-desc" class="text-sm text-brand-charcoal/60">Description</p>
                             </div>
-                            <div class="text-right">
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Bundle Price</p>
-                                <p id="selected-bundle-price" class="text-2xl font-bold text-brand-charcoal">R —</p>
-                            </div>
+                            <span id="selected-bundle-price" class="font-bold text-xl">R 0</span>
                         </div>
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-3">Delivery Time</label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button type="button" id="btn-standard" onclick="setDeliveryType('standard')" class="py-4 rounded-2xl border-2 border-brand-charcoal bg-brand-charcoal text-white font-bold text-sm transition-all">
-                                <i class="fa-solid fa-calendar-day mr-2"></i>Day After Tomorrow
-                            </button>
-                            <button type="button" id="btn-sameday" onclick="setDeliveryType('sameday')" class="py-4 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold text-sm transition-all hover:border-brand-charcoal flex flex-col items-center justify-center">
-                                <span><i class="fa-solid fa-bolt mr-2"></i>Same Day</span>
-                                <span class="text-[10px] font-normal leading-tight mt-1">Before 10am only</span>
-                            </button>
-                        </div>
-                        <p id="sameday-warning" class="hidden text-brand-red text-xs font-bold mt-2">⚠ Same-day orders must be placed before 10:00am.</p>
-                    </div>
-
+                    <!-- Delivery Information -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-2">Delivery Address</label>
-                        <input type="text" id="order-address" placeholder="E.g. 14 Jan Smuts Ave, Parktown" class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
-                        <p class="text-[10px] text-gray-400 mt-2">We calculate from Rosebank Mall, Johannesburg</p>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-brand-gold mb-3">Delivery Address</label>
+                        <textarea id="order-address" rows="3" class="w-full p-4 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold focus:border-transparent transition-all resize-none" placeholder="Enter your full street address..."></textarea>
                     </div>
 
-                    <button onclick="calculateDelivery()" id="calc-btn" class="w-full py-5 bg-brand-stone rounded-2xl font-bold text-brand-charcoal hover:bg-brand-charcoal hover:text-white transition-all flex items-center justify-center gap-3 mt-6">
-                        <i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost
+                    <!-- Delivery Settings -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="setDeliveryType('standard')" id="btn-standard" class="p-4 border-2 border-brand-gold bg-brand-gold/5 rounded-xl text-left transition-all">
+                            <span class="block text-sm font-bold mb-1">Standard</span>
+                            <span class="block text-xs text-brand-charcoal/60">Day after tomorrow</span>
+                        </button>
+                        <button onclick="setDeliveryType('sameday')" id="btn-sameday" class="p-4 border-2 border-transparent bg-gray-50 rounded-xl text-left transition-all hover:bg-gray-100">
+                            <span class="block text-sm font-bold mb-1">Same-Day</span>
+                            <span class="block text-xs text-brand-charcoal/60">R25 / km</span>
+                        </button>
+                    </div>
+
+                    <!-- Map / Validation Notice -->
+                    <div id="delivery-result" class="hidden bg-gray-50 rounded-xl p-4 text-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-500">Distance</span>
+                            <span id="delivery-distance" class="font-mono font-bold">-- km</span>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+                            <span class="font-bold">Estimated Delivery</span>
+                            <span id="delivery-cost" class="font-mono font-bold text-brand-gold">R --</span>
+                        </div>
+                        <p id="delivery-time-note" class="text-xs text-brand-charcoal/50 text-center mt-3 font-semibold"></p>
+                    </div>
+
+                    <button id="calc-delivery-btn" onclick="calculateDelivery()" class="w-full py-3 bg-gray-100 text-brand-charcoal rounded-xl font-bold hover:bg-gray-200 transition-colors text-sm">
+                        <i class="fa-solid fa-location-dot mr-2"></i> Calculate Delivery Cost
                     </button>
-
-                    <div id="delivery-result" class="hidden bg-brand-sage/50 rounded-3xl p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Distance</p>
-                                <p id="delivery-distance" class="text-lg font-bold">— km</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Delivery Cost</p>
-                                <p id="delivery-cost" class="text-2xl font-bold text-brand-charcoal">R —</p>
-                            </div>
-                        </div>
-                        <div class="border-t border-brand-charcoal/10 pt-4 flex justify-between items-center">
-                            <p class="text-sm font-bold uppercase tracking-widest text-brand-charcoal">Total</p>
-                            <p id="delivery-total" class="text-3xl font-bold text-brand-charcoal">R —</p>
-                        </div>
-                        <p id="delivery-time-note" class="text-xs text-gray-400 mt-3 text-center"></p>
-                    </div>
-
-                    <div id="checkout-btns" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                        <p class="md:col-span-2 text-[10px] text-gray-400 text-center mb-0 mt-4 uppercase font-bold tracking-widest">Secure payment via Yoco or Cash/EFT on WhatsApp</p>
-                        <button onclick="checkoutBundleYoco()" class="w-full bg-brand-charcoal text-white py-5 rounded-full font-bold text-lg shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                            <i class="fa-solid fa-credit-card text-xl"></i> Pay via Yoco
-                        </button>
-                        <button onclick="checkoutBundleWhatsApp()" class="w-full bg-[#25D366] text-white py-5 rounded-full font-bold text-lg shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                            <i class="fa-brands fa-whatsapp text-xl"></i> Order via WhatsApp
-                        </button>
-                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Checkout Buttons -->
+        <div class="p-8 border-t border-gray-100 bg-white" id="checkout-btns">
+            <div class="space-y-3">
+                <button onclick="checkoutBundleYoco()" class="w-full py-4 bg-brand-charcoal text-white rounded-xl font-bold hover:bg-black transition-colors flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-credit-card"></i> Pay Online Now
+                </button>
+                <button onclick="checkoutBundleWhatsApp()" class="w-full py-4 bg-[#25D366] text-white rounded-xl font-bold hover:bg-[#128C7E] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Order via WhatsApp
+                </button>
+                <p class="text-[10px] text-center text-gray-400 uppercase tracking-widest mt-2">WhatsApp orders payable via Cash/EFT</p>
             </div>
         </div>
     </div>
 
-    <!-- HUD Elements (Footer Links & Logo) -->
-    <div class="hud-footer">
-        <a href="our-juice.html">Our Juice</a>
-        <a href="our-story.html">Our Story</a>
-        <a href="our-partnerships.html">Our Partnerships</a>
-    </div>
-    <img src="logo-transparent.png" alt="Chanta" class="hud-logo pointer-events-none brightness-0" style="opacity:0.04;">
-
-    <!-- APP LOGIC -->
     <script>
-        const WHATSAPP_NUMBER = "27684310296";
-        const YOCO_BASE_URL = "https://pay.yoco.com/chanta";
-
-        const ROSEBANK_LAT = -26.1473;
-        const ROSEBANK_LNG = 28.0446;
+        // ─── DATA & STATE ─────────────────────────────────────────────
+        const WHATSAPP_NUMBER = '27608189675';
+        const YOCO_BASE_URL = 'https://pay.yoco.com/chanta';
+        
+        // Using Mapbox coords for Rosebank Mall
+        const STORE_COORDS = { lat: -26.1459, lon: 28.0416 }; 
 
         const BUNDLES = [
-            { id: 0, name: 'Independent Bundle', price: 399, rateUnder: 12, rateOver: 16 },
-            { id: 1, name: 'Family Bundle', price: 589, rateUnder: 0, rateOver: 16 },
-            { id: 2, name: 'Community Bundle', price: 1729, rateUnder: 12, rateOver: 16 }
+            { name: "Independent Bundle", size: "12 Bottles", price: 399 },
+            { name: "Family Bundle", size: "24 Bottles", price: 589 },
+            { name: "Community Bundle", size: "54 Bottles", price: 1729 }
         ];
+
         let selectedBundle = 0;
         let deliveryType = 'standard';
-        let calculatedDeliveryCost = 0;
         let calculatedDistance = 0;
+        let calculatedDeliveryCost = 0;
 
+        // ─── LOGIC ────────────────────────────────────────────────────
         function selectBundle(index) {
             selectedBundle = index;
             const b = BUNDLES[index];
+            
             document.getElementById('selected-bundle-name').textContent = b.name;
-            document.getElementById('selected-bundle-price').textContent = 'R ' + b.price.toFixed(2);
+            document.getElementById('selected-bundle-desc').textContent = b.size;
+            document.getElementById('selected-bundle-price').textContent = `R ${b.price}`;
+            
+            // Reset delivery state visually
+            document.getElementById('delivery-result').classList.add('hidden');
+            calculatedDistance = 0;
+            calculatedDeliveryCost = 0;
+            const btn = document.getElementById('calc-delivery-btn');
+            btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
+            btn.classList.remove('bg-brand-sage', 'text-brand-forest');
             
             openOperatingRoom();
-            document.getElementById('delivery-result').classList.add('hidden');
-            document.getElementById('checkout-btns').classList.add('hidden');
         }
 
         function setDeliveryType(type) {
-            const now = new Date();
-            const hour = now.getHours();
-            if (type === 'sameday' && hour >= 10) {
-                document.getElementById('sameday-warning').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('sameday-warning').classList.add('hidden');
             deliveryType = type;
-            document.getElementById('btn-standard').className = type === 'standard'
-                ? 'py-4 rounded-2xl border-2 border-brand-charcoal bg-brand-charcoal text-white font-bold text-sm transition-all'
-                : 'py-4 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold text-sm transition-all hover:border-brand-charcoal flex flex-col items-center justify-center';
-            document.getElementById('btn-sameday').className = type === 'sameday'
-                ? 'py-4 rounded-2xl border-2 border-brand-charcoal bg-brand-charcoal text-white font-bold text-sm transition-all flex flex-col items-center justify-center'
-                : 'py-4 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold text-sm transition-all hover:border-brand-charcoal flex flex-col items-center justify-center';
+            document.getElementById('btn-standard').className = 
+                type === 'standard' 
+                ? 'p-4 border-2 border-brand-gold bg-brand-gold/5 rounded-xl text-left transition-all'
+                : 'p-4 border-2 border-transparent bg-gray-50 rounded-xl text-left transition-all hover:bg-gray-100';
+                
+            document.getElementById('btn-sameday').className = 
+                type === 'sameday' 
+                ? 'p-4 border-2 border-brand-gold bg-brand-gold/5 rounded-xl text-left transition-all'
+                : 'p-4 border-2 border-transparent bg-gray-50 rounded-xl text-left transition-all hover:bg-gray-100';
+
+            // Recalculate if we already have a distance
+            if(calculatedDistance > 0) {
+                calculateDelivery(true);
+            }
         }
 
-        function haversineKm(lat1, lng1, lat2, lng2) {
-            const R = 6371;
+        // Haversine formula
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; 
         }
 
         function calcDeliveryCost(km, bundleIndex, type) {
@@ -493,46 +507,48 @@
             return Math.round((11 * 12) + ((km - 15) * 16));
         }
 
-        async function calculateDelivery() {
-            const addr = document.getElementById('order-address').value.trim();
-            if(!addr) { alert('Please enter an address'); return; }
+        async function calculateDelivery(isRecalc = false) {
+            const address = document.getElementById('order-address').value;
+            if (!address && !isRecalc) {
+                alert('Please enter an address first');
+                return;
+            }
+
+            const btn = document.getElementById('calc-delivery-btn');
             
-            const btn = document.getElementById('calc-btn');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Calculating Route...';
-            btn.disabled = true;
+            if (!isRecalc) {
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Calculating...';
+                btn.disabled = true;
+            }
 
             try {
-                const query = encodeURIComponent(addr + ', Johannesburg, South Africa');
-                const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
-                const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-                const data = await res.json();
+                if (!isRecalc) {
+                    // Use Nominatim (OpenStreetMap) for free geocoding
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address + ', Johannesburg, South Africa')}`);
+                    const data = await response.json();
 
-                if (!data.length) {
-                    alert('Address not found mapping from Rosebank. Try adding more detail like suburbs.');
-                    btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
-                    btn.disabled = false;
-                    return;
+                    if (data && data.length > 0) {
+                        const destLat = parseFloat(data[0].lat);
+                        const destLon = parseFloat(data[0].lon);
+                        calculatedDistance = calculateDistance(STORE_COORDS.lat, STORE_COORDS.lon, destLat, destLon);
+                    } else {
+                        throw new Error("Address not found. We assumed Johannesburg area. Please be more specific.");
+                    }
                 }
 
-                const lat = parseFloat(data[0].lat);
-                const lng = parseFloat(data[0].lon);
-                const km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
-                calculatedDistance = km;
-                calculatedDeliveryCost = calcDeliveryCost(km, selectedBundle, deliveryType);
+                calculatedDeliveryCost = calcDeliveryCost(calculatedDistance, selectedBundle, deliveryType);
 
-                const bundlePrice = BUNDLES[selectedBundle].price;
-                const total = bundlePrice + calculatedDeliveryCost;
+                document.getElementById('delivery-distance').textContent = `${calculatedDistance.toFixed(1)} km`;
+                document.getElementById('delivery-cost').textContent = calculatedDeliveryCost === 0 ? 'FREE' : `R ${calculatedDeliveryCost}`;
+                
+                // Calculate ETA logic
+                const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                const d = new Date();
+                d.setDate(d.getDate() + 2);
+                const dayStr = days[d.getDay()];
 
-                document.getElementById('delivery-distance').textContent = km.toFixed(1) + ' km';
-                document.getElementById('delivery-cost').textContent = calculatedDeliveryCost === 0 ? 'FREE' : 'R ' + calculatedDeliveryCost;
-                document.getElementById('delivery-total').textContent = 'R ' + total.toFixed(2);
-
-                const now = new Date();
-                const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 2);
-                const dayStr = tomorrow.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long' });
                 if (deliveryType === 'sameday') {
-                    const eta = new Date(now.getTime() + 5 * 60 * 60 * 1000);
-                    document.getElementById('delivery-time-note').textContent = `Estimated delivery by ${eta.getHours()}:00 today (5-hour window)`;
+                    document.getElementById('delivery-time-note').textContent = `Speedy Delivery: Within 4 hours`;
                 } else {
                     document.getElementById('delivery-time-note').textContent = `Estimated delivery: ${dayStr}`;
                 }
@@ -716,3 +732,4 @@
     </script>
 </body>
 </html>
+```
