@@ -16,14 +16,14 @@
                 extend: {
                     colors: {
                         brand: {
-                            yellow: '#F9D151',
-                            gold:   '#D4AF37',
-                            charcoal: '#242424',
-                            sage:   '#E3EDE8',
-                            earth:  '#8B7355',
-                            cream:  '#FDFCF8',
-                            forest: '#2D3A2D',
-                            green:  '#2D6A4F',
+                            yellow:  '#F9D151',
+                            gold:    '#D4AF37',
+                            charcoal:'#242424',
+                            sage:    '#E3EDE8',
+                            earth:   '#8B7355',
+                            cream:   '#FDFCF8',
+                            forest:  '#2D3A2D',
+                            green:   '#2D6A4F',
                         }
                     },
                     borderRadius: {
@@ -47,14 +47,10 @@
 
         /* Nav */
         nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
             padding: 1.25rem 2.5rem;
-            background: rgba(253,252,248,0.85);
+            background: rgba(253,252,248,0.9);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(36,36,36,0.06);
         }
@@ -65,117 +61,60 @@
         /* Hero */
         .page-hero {
             min-height: 55vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+            display: flex; flex-direction: column; justify-content: flex-end;
             padding: 8rem 2.5rem 4rem;
             background: linear-gradient(160deg, #2D3A2D 0%, #1a2a1a 100%);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .page-hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
+            content: ''; position: absolute; inset: 0;
             background: radial-gradient(ellipse at 70% 40%, rgba(212,175,55,0.18) 0%, transparent 60%);
         }
-        .page-hero h1 {
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 700;
-            line-height: 0.95;
-            color: #FDFCF8;
-            position: relative;
-        }
-        .page-hero p {
-            font-size: 1.1rem;
-            color: rgba(253,252,248,0.6);
-            max-width: 540px;
-            margin-top: 1.5rem;
-            position: relative;
-        }
+        .page-hero h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 700; line-height: 0.95; color: #FDFCF8; position: relative; }
+        .page-hero p { font-size: 1.1rem; color: rgba(253,252,248,0.6); max-width: 540px; margin-top: 1.5rem; position: relative; }
 
-        /* Section label */
-        .section-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: #D4AF37;
-            margin-bottom: 1rem;
-        }
+        .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #D4AF37; margin-bottom: 1rem; }
 
-        /* Subscription card */
-        .sub-card {
-            background: #242424;
-            border-radius: 2.5rem;
-            padding: 3rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        .sub-card::before {
-            content: '';
-            position: absolute;
-            top: -60px; right: -60px;
-            width: 260px; height: 260px;
-            background: radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%);
-        }
+        /* Subscription */
+        .sub-card { background: #242424; border-radius: 2.5rem; padding: 3rem; color: white; position: relative; overflow: hidden; }
+        .sub-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; background: radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%); }
 
         /* Partner card */
-        .partner-card {
-            background: white;
-            border: 1px solid rgba(36,36,36,0.07);
-            border-radius: 2rem;
-            padding: 2.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .partner-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 50px rgba(36,36,36,0.08);
-        }
-
-        /* Hospitality CTA */
-        .hospitality-cta {
-            background: linear-gradient(135deg, #2D6A4F 0%, #1a4a32 100%);
-            border-radius: 2.5rem;
-            padding: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .hospitality-cta::after {
-            content: '';
-            position: absolute;
-            bottom: -40px; right: -40px;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
-        }
+        .partner-card { background: white; border: 1px solid rgba(36,36,36,0.07); border-radius: 2rem; padding: 2.5rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .partner-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(36,36,36,0.08); }
 
         /* Pill tags */
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(212,175,55,0.12);
-            color: #D4AF37;
-            border: 1px solid rgba(212,175,55,0.25);
-            border-radius: 999px;
-            padding: 0.35rem 0.85rem;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+        .pill { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(212,175,55,0.12); color: #D4AF37; border: 1px solid rgba(212,175,55,0.25); border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+
+        /* Hospitality CTA */
+        .hospitality-cta { background: linear-gradient(135deg, #2D6A4F 0%, #1a4a32 100%); border-radius: 2.5rem; padding: 4rem; position: relative; overflow: hidden; }
+        .hospitality-cta::after { content: ''; position: absolute; bottom: -40px; right: -40px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%); }
+
+        /* Form inputs */
+        .form-input {
+            width: 100%;
+            background: rgba(36,36,36,0.04);
+            border: 1.5px solid rgba(36,36,36,0.1);
+            border-radius: 1rem;
+            padding: 0.85rem 1.1rem;
+            font-family: 'General Sans', sans-serif;
+            font-size: 0.9rem;
+            color: #242424;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
         }
+        .form-input:focus { border-color: #D4AF37; box-shadow: 0 0 0 3px rgba(212,175,55,0.12); }
+        .form-input::placeholder { color: rgba(36,36,36,0.35); }
+        textarea.form-input { resize: vertical; min-height: 110px; }
+
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+        .modal-box { background: #FDFCF8; border-radius: 2.5rem; padding: 3rem; max-width: 480px; width: 100%; position: relative; transform: translateY(20px); transition: transform 0.25s; }
+        .modal-overlay.open .modal-box { transform: translateY(0); }
 
         /* Footer */
-        footer {
-            background: #242424;
-            color: rgba(253,252,248,0.5);
-            padding: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.8rem;
-        }
+        footer { background: #242424; color: rgba(253,252,248,0.5); padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
         footer a { color: rgba(253,252,248,0.5); text-decoration: none; }
         footer a:hover { color: #D4AF37; }
     </style>
@@ -207,7 +146,8 @@
             <h2 class="text-4xl lg:text-5xl font-bold mb-12 leading-tight">Subscribe &amp; save.<br>Every month.</h2>
 
             <div class="sub-card">
-                <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-start">
+                    <!-- Left: Benefits -->
                     <div>
                         <span class="pill mb-6 inline-flex"><i class="fa-solid fa-star"></i> Chanta Members</span>
                         <h3 class="text-3xl font-bold text-white mt-4 mb-4">Monthly Subscription</h3>
@@ -224,7 +164,7 @@
                             </li>
                             <li class="flex items-start gap-3 text-white/80">
                                 <i class="fa-solid fa-circle-check text-brand-gold mt-0.5 shrink-0"></i>
-                                <span><strong class="text-white">Pause or cancel</strong> anytime — no lock-ins, no hassle</span>
+                                <span><strong class="text-white">Pause or cancel</strong> anytime — no lock-ins</span>
                             </li>
                             <li class="flex items-start gap-3 text-white/80">
                                 <i class="fa-solid fa-circle-check text-brand-gold mt-0.5 shrink-0"></i>
@@ -232,26 +172,70 @@
                             </li>
                         </ul>
 
-                        <a href="https://wa.me/27000000000?text=Hi%20Chanta%2C%20I%27d%20like%20to%20sign%20up%20for%20a%20monthly%20subscription%20please!"
-                           target="_blank"
-                           class="inline-flex items-center gap-3 bg-brand-gold text-white font-bold py-4 px-8 rounded-full hover:bg-white hover:text-brand-charcoal transition-colors text-sm">
-                            <i class="fa-brands fa-whatsapp text-lg"></i>
-                            Start My Subscription
-                        </a>
+                        <div class="grid grid-cols-3 gap-3 mb-8">
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                                <p class="text-brand-gold text-2xl font-bold mb-1">15%</p>
+                                <p class="text-white/40 text-[10px] uppercase tracking-widest font-bold">Discount</p>
+                            </div>
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                                <p class="text-brand-gold text-2xl font-bold mb-1">R0</p>
+                                <p class="text-white/40 text-[10px] uppercase tracking-widest font-bold">Delivery</p>
+                            </div>
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                                <p class="text-brand-gold text-2xl font-bold mb-1">∞</p>
+                                <p class="text-white/40 text-[10px] uppercase tracking-widest font-bold">Sunshine</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-                            <p class="text-brand-gold text-3xl font-bold mb-1">15%</p>
-                            <p class="text-white/50 text-xs uppercase tracking-widest font-bold">Member Discount</p>
-                        </div>
-                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-                            <p class="text-brand-gold text-3xl font-bold mb-1">R0</p>
-                            <p class="text-white/50 text-xs uppercase tracking-widest font-bold">Delivery Fee</p>
-                        </div>
-                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center col-span-2">
-                            <p class="text-brand-gold text-3xl font-bold mb-1">∞</p>
-                            <p class="text-white/50 text-xs uppercase tracking-widest font-bold">Sunshine, Always</p>
+                    <!-- Right: Signup form -->
+                    <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+                        <h4 class="text-white font-bold text-lg mb-1">Create your member account</h4>
+                        <p class="text-white/40 text-sm mb-6">Free to join. Cancel whenever you like.</p>
+                        <form id="memberSignupForm" onsubmit="handleMemberSignup(event)" class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">First Name</label>
+                                    <input type="text" id="mem-first" required placeholder="Thabo" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                </div>
+                                <div>
+                                    <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Last Name</label>
+                                    <input type="text" id="mem-last" required placeholder="Dlamini" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Email</label>
+                                <input type="email" id="mem-email" required placeholder="you@example.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                            </div>
+                            <div>
+                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Phone Number</label>
+                                <input type="tel" id="mem-phone" required placeholder="+27 60 000 0000" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                            </div>
+                            <div>
+                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Delivery Address</label>
+                                <input type="text" id="mem-address" required placeholder="123 Sandton Drive, Johannesburg" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                            </div>
+                            <div>
+                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Pack Size</label>
+                                <select id="mem-pack" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-brand-gold transition-colors" style="background-color:#2a2a2a;">
+                                    <option value="" disabled selected>Choose your monthly pack</option>
+                                    <option value="12">12 Pack — R 339/mo (15% off)</option>
+                                    <option value="24">24 Pack — R 500/mo (15% off)</option>
+                                    <option value="54">54 Pack — R 1,469/mo (15% off)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-brand-gold text-white font-bold py-4 rounded-full hover:bg-white hover:text-brand-charcoal transition-colors text-sm flex items-center justify-center gap-2 mt-2">
+                                <i class="fa-solid fa-user-plus"></i>
+                                Create My Account
+                            </button>
+                        </form>
+                        <!-- Success state -->
+                        <div id="memberSuccess" class="hidden text-center py-6">
+                            <div class="w-14 h-14 bg-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fa-solid fa-check text-brand-gold text-2xl"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg mb-2">You're in!</h4>
+                            <p class="text-white/50 text-sm">We'll WhatsApp you to confirm your first delivery. Welcome to the Chanta circle.</p>
                         </div>
                     </div>
                 </div>
@@ -272,9 +256,9 @@
                     </div>
                     <span class="pill mb-4 inline-flex"><i class="fa-solid fa-handshake-simple"></i> Refreshment Partner</span>
                     <h3 class="text-2xl font-bold mt-4 mb-3">Bare</h3>
-                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">Bare is where we pour. As their official refreshment partner, Chanta cold-pressed juice is the drink their community reaches for. Real energy, real ingredients — at every Bare event and session.</p>
+                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">Bare is where we pour. As their official refreshment partner, Chanta cold-pressed juice fuels their meetings, seminars, and events — keeping the room sharp, hydrated, and at their best every time.</p>
                     <div class="mt-6 pt-6 border-t border-brand-charcoal/5 flex items-center gap-2 text-sm text-brand-charcoal/40 font-medium">
-                        <i class="fa-solid fa-location-dot text-brand-gold"></i> Cape Town, South Africa
+                        <i class="fa-solid fa-location-dot text-brand-gold"></i> Johannesburg, South Africa
                     </div>
                 </div>
 
@@ -285,66 +269,116 @@
                             FYP <span style="color:#D4AF37;">Connect</span>
                         </div>
                     </div>
-                    <span class="pill mb-4 inline-flex"><i class="fa-solid fa-handshake-simple"></i> Creative Partner</span>
+                    <span class="pill mb-4 inline-flex"><i class="fa-solid fa-handshake-simple"></i> Networking Partner</span>
                     <h3 class="text-2xl font-bold mt-4 mb-3">FYP Connect</h3>
-                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">FYP Connect is a curated space for creative connection — bringing together artists, makers, and culture shapers. We keep the room fuelled with cold-pressed juice because good ideas deserve good energy.</p>
+                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">FYP Connect is a curated networking experience for business people — bringing together professionals, entrepreneurs, and decision-makers in spaces built for real connection. Chanta keeps the room powered with cold-pressed energy from first handshake to last conversation.</p>
                     <div class="mt-6 pt-6 border-t border-brand-charcoal/5 flex items-center gap-2 text-sm text-brand-charcoal/40 font-medium">
-                        <i class="fa-solid fa-location-dot text-brand-gold"></i> Cape Town, South Africa
+                        <i class="fa-solid fa-location-dot text-brand-gold"></i> Johannesburg, South Africa
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ── HOSPITALITY CTA ── -->
+        <!-- ── HOSPITALITY / BUSINESS PARTNERSHIP ── -->
         <section>
-            <div class="hospitality-cta">
-                <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <span class="inline-flex items-center gap-2 text-brand-gold text-xs font-bold uppercase tracking-widest mb-6">
-                            <i class="fa-solid fa-building"></i> Hospitality &amp; Trade
-                        </span>
-                        <h2 class="text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
-                            In the hospitality<br>space?
-                        </h2>
-                        <p class="text-white/60 leading-relaxed mb-8">
-                            If you run a hotel, restaurant, festival, or market, we'd love to be your juice partner. We work with spaces that care about what they put in front of their people — and we'll make sure you always have something worth pouring.
-                        </p>
-                        <a href="https://wa.me/27000000000?text=Hi%20Chanta%2C%20I%27d%20love%20to%20explore%20a%20partnership%20for%20my%20hospitality%20business!"
-                           target="_blank"
-                           class="inline-flex items-center gap-3 bg-white text-brand-charcoal font-bold py-4 px-8 rounded-full hover:bg-brand-gold hover:text-white transition-colors text-sm">
-                            <i class="fa-brands fa-whatsapp text-lg"></i>
-                            Let's Talk Partnership
-                        </a>
-                    </div>
+            <p class="section-label">Hospitality &amp; Trade</p>
+            <h2 class="text-4xl lg:text-5xl font-bold mb-4 leading-tight">In the hospitality<br>space?</h2>
+            <p class="text-brand-charcoal/50 mb-12 max-w-xl">If you run a hotel, restaurant, festival, or market, we'd love to be your juice partner. Fill in the form below and we'll get back to you — or start the conversation on WhatsApp right now.</p>
 
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4">
-                            <div class="w-10 h-10 bg-brand-gold/20 rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-utensils text-brand-gold"></i>
+            <div class="grid lg:grid-cols-5 gap-8 items-start">
+
+                <!-- Contact form — wider -->
+                <div class="lg:col-span-3 bg-white border border-brand-charcoal/5 shadow-xl shadow-brand-charcoal/4 rounded-3xl p-8">
+                    <h3 class="text-2xl font-bold mb-1">Get in touch</h3>
+                    <p class="text-brand-charcoal/40 text-sm mb-6">Tell us about your business and we'll get back to you within 24 hours.</p>
+
+                    <form id="partnerForm" onsubmit="handlePartnerForm(event)" class="space-y-4">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Name</label>
+                                <input type="text" id="p-name" required placeholder="Your full name" class="form-input">
                             </div>
                             <div>
-                                <p class="text-white font-semibold text-sm">Restaurants &amp; Cafés</p>
-                                <p class="text-white/40 text-xs">Wholesale pricing, weekly delivery</p>
+                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Business Name</label>
+                                <input type="text" id="p-biz" required placeholder="e.g. The Capital Hotel" class="form-input">
                             </div>
                         </div>
-                        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4">
-                            <div class="w-10 h-10 bg-brand-gold/20 rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-hotel text-brand-gold"></i>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Email</label>
+                                <input type="email" id="p-email" required placeholder="you@business.com" class="form-input">
                             </div>
                             <div>
-                                <p class="text-white font-semibold text-sm">Hotels &amp; Lodges</p>
-                                <p class="text-white/40 text-xs">Branded minibar, in-room &amp; buffet options</p>
+                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Phone Number</label>
+                                <input type="tel" id="p-phone" required placeholder="+27 60 000 0000" class="form-input">
                             </div>
                         </div>
-                        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4">
-                            <div class="w-10 h-10 bg-brand-gold/20 rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-music text-brand-gold"></i>
+                        <div>
+                            <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Business Type</label>
+                            <select id="p-type" required class="form-input">
+                                <option value="" disabled selected>Select your category</option>
+                                <option>Hotel or Lodge</option>
+                                <option>Restaurant or Café</option>
+                                <option>Festival or Event</option>
+                                <option>Market</option>
+                                <option>Corporate / Office</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Short Message</label>
+                            <textarea id="p-message" required placeholder="Tell us a bit about your business and what you're looking for..." class="form-input"></textarea>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                            <button type="submit" class="flex-1 bg-brand-charcoal text-white font-bold py-4 rounded-full hover:bg-brand-gold transition-colors text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+                            </button>
+                            <button type="button" onclick="whatsappPartner()" class="flex-1 bg-[#25D366] text-white font-bold py-4 rounded-full hover:scale-[1.02] transition-transform text-sm flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Us Instead
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Form success -->
+                    <div id="partnerSuccess" class="hidden text-center py-8">
+                        <div class="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-check text-green-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">Message received!</h4>
+                        <p class="text-brand-charcoal/50 text-sm">We'll get back to you within 24 hours. In the meantime, feel free to WhatsApp us if you'd like a quicker chat.</p>
+                        <button onclick="whatsappPartner()" class="mt-6 inline-flex items-center gap-2 bg-[#25D366] text-white font-bold py-3 px-6 rounded-full text-sm hover:scale-[1.02] transition-transform">
+                            <i class="fa-brands fa-whatsapp"></i> Open WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: venue types + green accent -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div style="background: linear-gradient(135deg, #2D6A4F 0%, #1a4a32 100%); border-radius: 2rem; padding: 2rem; position: relative; overflow: hidden;">
+                        <div style="position:absolute;bottom:-30px;right:-30px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,175,55,0.2) 0%,transparent 70%);"></div>
+                        <p class="text-brand-gold text-xs uppercase tracking-widest font-bold mb-4">We supply</p>
+                        <div class="space-y-3 relative">
+                            <div class="flex items-center gap-3 text-white/80 text-sm">
+                                <i class="fa-solid fa-hotel text-brand-gold w-5 text-center"></i> Hotels &amp; Lodges
                             </div>
-                            <div>
-                                <p class="text-white font-semibold text-sm">Festivals &amp; Markets</p>
-                                <p class="text-white/40 text-xs">Pop-up supply, event stock planning</p>
+                            <div class="flex items-center gap-3 text-white/80 text-sm">
+                                <i class="fa-solid fa-utensils text-brand-gold w-5 text-center"></i> Restaurants &amp; Cafés
+                            </div>
+                            <div class="flex items-center gap-3 text-white/80 text-sm">
+                                <i class="fa-solid fa-music text-brand-gold w-5 text-center"></i> Festivals &amp; Markets
+                            </div>
+                            <div class="flex items-center gap-3 text-white/80 text-sm">
+                                <i class="fa-solid fa-briefcase text-brand-gold w-5 text-center"></i> Corporate Offices
                             </div>
                         </div>
+                    </div>
+                    <div class="bg-white border border-brand-charcoal/5 rounded-2xl p-5 text-sm text-brand-charcoal/50 leading-relaxed">
+                        <i class="fa-solid fa-bolt text-brand-gold mr-2"></i>
+                        <strong class="text-brand-charcoal">Fast turnaround.</strong> We respond to all partnership enquiries within 24 hours and can have your first delivery organised within the week.
+                    </div>
+                    <div class="bg-white border border-brand-charcoal/5 rounded-2xl p-5 text-sm text-brand-charcoal/50 leading-relaxed">
+                        <i class="fa-solid fa-tag text-brand-gold mr-2"></i>
+                        <strong class="text-brand-charcoal">Wholesale pricing.</strong> Business orders come with dedicated trade rates, flexible volume options, and a dedicated Chanta contact.
                     </div>
                 </div>
             </div>
@@ -354,7 +388,7 @@
 
     <!-- FOOTER -->
     <footer>
-        <span>&copy; 2026 Chanta. Cold-pressed in Cape Town.</span>
+        <span>&copy; 2026 Chanta. Cold-pressed in Johannesburg.</span>
         <div class="flex gap-6">
             <a href="our-juice.html">Our Juice</a>
             <a href="our-story.html">Our Story</a>
@@ -362,5 +396,46 @@
         </div>
     </footer>
 
+    <script>
+        const WA_NUMBER = '27000000000'; // ← replace with real number
+
+        function whatsappPartner() {
+            const msg = encodeURIComponent("Hi Chanta, I'd love to explore a partnership for my business!");
+            window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+        }
+
+        function handleMemberSignup(e) {
+            e.preventDefault();
+            const first   = document.getElementById('mem-first').value;
+            const last    = document.getElementById('mem-last').value;
+            const phone   = document.getElementById('mem-phone').value;
+            const pack    = document.getElementById('mem-pack').value;
+            const address = document.getElementById('mem-address').value;
+
+            // Send via WhatsApp so Chanta gets the signup immediately
+            const msg = `Hi Chanta! I'd like to sign up as a member.\n\n👤 Name: ${first} ${last}\n📦 Pack: ${pack} Pack (monthly)\n📍 Address: ${address}\n📱 Phone: ${phone}`;
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+
+            document.getElementById('memberSignupForm').classList.add('hidden');
+            document.getElementById('memberSuccess').classList.remove('hidden');
+        }
+
+        function handlePartnerForm(e) {
+            e.preventDefault();
+            const name    = document.getElementById('p-name').value;
+            const biz     = document.getElementById('p-biz').value;
+            const email   = document.getElementById('p-email').value;
+            const phone   = document.getElementById('p-phone').value;
+            const type    = document.getElementById('p-type').value;
+            const message = document.getElementById('p-message').value;
+
+            // Send via WhatsApp so enquiry is instantly visible
+            const msg = `Partnership Enquiry\n\n👤 Name: ${name}\n🏢 Business: ${biz} (${type})\n📧 Email: ${email}\n📱 Phone: ${phone}\n\n💬 "${message}"`;
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+
+            document.getElementById('partnerForm').classList.add('hidden');
+            document.getElementById('partnerSuccess').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
