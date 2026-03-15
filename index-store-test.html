@@ -244,9 +244,23 @@
                 max-width: 100% !important;
             }
 
-            /* HUD footer — tuck away so it doesn't block bundle buttons */
+            /* HUD footer — move to the top on mobile so the nav links still work */
             .hud-footer {
-                display: none;
+                bottom: auto;
+                top: 1.5rem;
+                left: 1.25rem;
+                right: 1.25rem;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hud-footer a {
+                font-size: 0.65rem;
+                letter-spacing: 0.12em;
+                color: rgba(36,36,36,0.5); /* Grey text */
+                background: transparent;
+                padding: 0.4rem;
+                border: none;
             }
 
             /* Scroll indicator — smaller on mobile */
