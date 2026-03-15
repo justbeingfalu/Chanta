@@ -708,9 +708,10 @@
             const ticker = document.querySelector('#ticker');
             const bundlesLayer = document.getElementById('bundles-layer');
             if (ticker && bundlesLayer) {
-                // Center the full bundles section in the viewport at the scroll end.
-                const bundleCenter = bundlesLayer.offsetLeft + bundlesLayer.offsetWidth / 2;
-                const maxScroll = Math.max(0, bundleCenter - window.innerWidth / 2);
+                // On desktop: center the section. On mobile: scroll to the end so all cards are visible.
+                const maxScroll = window.innerWidth <= 768 
+                    ? Math.max(0, bundlesLayer.offsetLeft + bundlesLayer.offsetWidth - window.innerWidth + 40)
+                    : Math.max(0, bundlesLayer.offsetLeft + bundlesLayer.offsetWidth / 2 - window.innerWidth / 2);
                 document.getElementById('scroll-spacer').style.height = (maxScroll + window.innerHeight * 0.5) + 'px';
             }
         }
@@ -760,9 +761,10 @@
             const ticker = document.querySelector('#ticker');
             const bundlesLayer = document.getElementById('bundles-layer');
             if (!ticker || !bundlesLayer) return 0;
-            // Center the full bundles section (title + all 3 cards) in the viewport.
-            const bundleCenter = bundlesLayer.offsetLeft + bundlesLayer.offsetWidth / 2;
-            const maxScroll = Math.max(0, bundleCenter - window.innerWidth / 2);
+            // On desktop: center the section. On mobile: scroll to the end so all cards are visible.
+            const maxScroll = window.innerWidth <= 768 
+                ? Math.max(0, bundlesLayer.offsetLeft + bundlesLayer.offsetWidth - window.innerWidth + 40)
+                : Math.max(0, bundlesLayer.offsetLeft + bundlesLayer.offsetWidth / 2 - window.innerWidth / 2);
             return -maxScroll;
         };
 
