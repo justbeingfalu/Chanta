@@ -680,10 +680,15 @@
         // ─── SCROLL TRACK CALCULATION ───────────────
         function updateSpacer() {
             const ticker = document.querySelector('#ticker');
-            if(ticker) {
-                // Stop scroll exactly aligned with the end of the bundles section
-                const maxScroll = ticker.scrollWidth - window.innerWidth;
-                document.getElementById('scroll-spacer').style.height = (maxScroll + window.innerHeight) + 'px';
+            const bundlesLayer = document.getElementById('bundles-layer');
+            if (ticker && bundlesLayer) {
+                // Stop when the right edge of the bundles section is fully visible.
+                // We want the last card to land with a comfortable right margin, so we
+                // stop when bundlesLayer.offsetLeft + bundlesLayer.offsetWidth - window.innerWidth * 0.85
+                // has scrolled into view (i.e., right edge is ~15vw from the screen edge).
+                const bundleRight = bundlesLayer.offsetLeft + bundlesLayer.offsetWidth;
+                const maxScroll = Math.max(0, bundleRight - window.innerWidth * 0.92);
+                document.getElementById('scroll-spacer').style.height = (maxScroll + window.innerHeight * 0.5) + 'px';
             }
         }
         updateSpacer();
@@ -729,8 +734,10 @@
         // 2. Horizontal scroll movement
         const getScrollAmount = () => {
             const ticker = document.querySelector('#ticker');
-            // Stop exactly aligned with the end of the bundles section
-            const maxScroll = ticker.scrollWidth - window.innerWidth;
+            const bundlesLayer = document.getElementById('bundles-layer');
+            if (!ticker || !bundlesLayer) return 0;
+            const bundleRight = bundlesLayer.offsetLeft + bundlesLayer.offsetWidth;
+            const maxScroll = Math.max(0, bundleRight - window.innerWidth * 0.92);
             return -maxScroll;
         };
 
