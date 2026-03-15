@@ -680,8 +680,9 @@
         function updateSpacer() {
             const ticker = document.querySelector('#ticker');
             if(ticker) {
-                // 40% extra padding ensures 'Choose Your Bundle' is never clipped
-                const paddingRight = window.innerWidth * 0.4;
+                // Stop scroll exactly when the rightmost bundle card is in full view.
+                // 5% breathing room so the last card has a small margin from the right edge.
+                const paddingRight = window.innerWidth * 0.05;
                 const maxScroll = ticker.scrollWidth - window.innerWidth + paddingRight;
                 document.getElementById('scroll-spacer').style.height = (maxScroll + window.innerHeight) + 'px';
             }
@@ -710,16 +711,16 @@
             }
         });
 
-        // 1. Hero out (fade out image and text) - INDEPENDENT SCROLL TRIGGER
+        // 1. Hero out — fades over 1200px so it's ~95% gone before the ticker text rises.
         gsap.to("#intro", {
             opacity: 0,
             scale: 1.05,
             pointerEvents: "none",
-            ease: "none",
+            ease: "power1.in",
             scrollTrigger: {
                 trigger: "body",
                 start: "top top",
-                end: "+=600",
+                end: "+=1200",
                 scrub: true,
                 onLeave: () => gsap.set("#intro", { display: "none" }),
                 onEnterBack: () => gsap.set("#intro", { display: "flex" })
@@ -729,8 +730,8 @@
         // 2. Horizontal scroll movement
         const getScrollAmount = () => {
             const ticker = document.querySelector('#ticker');
-            // 40% extra padding ensures 'Choose Your Bundle' is never clipped
-            const paddingRight = window.innerWidth * 0.4;
+            // Stop exactly when all bundle cards are in view (5% breathing room)
+            const paddingRight = window.innerWidth * 0.05;
             const maxScroll = ticker.scrollWidth - window.innerWidth + paddingRight;
             return -maxScroll;
         };
