@@ -188,55 +188,66 @@
                         </div>
                     </div>
 
-                    <!-- Right: Signup form -->
-                    <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
-                        <h4 class="text-white font-bold text-lg mb-1">Create your member account</h4>
-                        <p class="text-white/40 text-sm mb-6">Free to join. Cancel whenever you like.</p>
-                        <form id="memberSignupForm" onsubmit="handleMemberSignup(event)" class="space-y-4">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">First Name</label>
-                                    <input type="text" id="mem-first" required placeholder="Thabo" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                    <!-- Right: progressive gravity — buttons first, form on demand -->
+                    <div class="flex flex-col gap-4 justify-center">
+
+                        <!-- Default CTA state -->
+                        <div id="mem-cta" class="space-y-3">
+                            <button onclick="showMemberForm('signup')" class="w-full bg-brand-gold text-white font-bold py-4 rounded-full hover:bg-white hover:text-brand-charcoal transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-user-plus"></i> Sign Up
+                            </button>
+                            <button onclick="showMemberForm('signin')" class="w-full bg-white/5 border border-white/15 text-white font-bold py-4 rounded-full hover:bg-white/10 transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+                            </button>
+                            <p class="text-white/30 text-xs text-center">Free to join. Cancel anytime.</p>
+                        </div>
+
+                        <!-- Sign Up form (hidden until clicked) -->
+                        <div id="mem-signup-panel" class="hidden bg-white/5 border border-white/10 rounded-3xl p-6 overflow-hidden" style="animation: slideDown 0.3s ease;">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-white font-bold">Create your account</h4>
+                                <button onclick="hideMemberForms()" class="text-white/30 hover:text-white transition-colors text-sm"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <form id="memberSignupForm" onsubmit="handleMemberSignup(event)" class="space-y-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <input type="text" id="mem-first" required placeholder="First name" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                    <input type="text" id="mem-last" required placeholder="Last name" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
                                 </div>
-                                <div>
-                                    <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Last Name</label>
-                                    <input type="text" id="mem-last" required placeholder="Dlamini" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Email</label>
-                                <input type="email" id="mem-email" required placeholder="you@example.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
-                            </div>
-                            <div>
-                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Phone Number</label>
-                                <input type="tel" id="mem-phone" required placeholder="+27 60 000 0000" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
-                            </div>
-                            <div>
-                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Delivery Address</label>
-                                <input type="text" id="mem-address" required placeholder="123 Sandton Drive, Johannesburg" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
-                            </div>
-                            <div>
-                                <label class="text-white/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Pack Size</label>
+                                <input type="email" id="mem-email" required placeholder="Email address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                <input type="tel" id="mem-phone" required placeholder="Phone number" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                <input type="text" id="mem-address" required placeholder="Delivery address, Johannesburg" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
                                 <select id="mem-pack" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-brand-gold transition-colors" style="background-color:#2a2a2a;">
                                     <option value="" disabled selected>Choose your monthly pack</option>
                                     <option value="12">12 Pack — R 339/mo (15% off)</option>
                                     <option value="24">24 Pack — R 500/mo (15% off)</option>
                                     <option value="54">54 Pack — R 1,469/mo (15% off)</option>
                                 </select>
+                                <button type="submit" class="w-full bg-brand-gold text-white font-bold py-4 rounded-full hover:bg-white hover:text-brand-charcoal transition-colors text-sm mt-1">
+                                    Create My Account
+                                </button>
+                            </form>
+                            <div id="memberSuccess" class="hidden text-center py-4">
+                                <i class="fa-solid fa-check text-brand-gold text-2xl mb-3 block"></i>
+                                <h4 class="text-white font-bold mb-1">You're in!</h4>
+                                <p class="text-white/50 text-xs">We'll WhatsApp you to confirm your first delivery.</p>
                             </div>
-                            <button type="submit" class="w-full bg-brand-gold text-white font-bold py-4 rounded-full hover:bg-white hover:text-brand-charcoal transition-colors text-sm flex items-center justify-center gap-2 mt-2">
-                                <i class="fa-solid fa-user-plus"></i>
-                                Create My Account
-                            </button>
-                        </form>
-                        <!-- Success state -->
-                        <div id="memberSuccess" class="hidden text-center py-6">
-                            <div class="w-14 h-14 bg-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fa-solid fa-check text-brand-gold text-2xl"></i>
-                            </div>
-                            <h4 class="text-white font-bold text-lg mb-2">You're in!</h4>
-                            <p class="text-white/50 text-sm">We'll WhatsApp you to confirm your first delivery. Welcome to the Chanta circle.</p>
                         </div>
+
+                        <!-- Sign In panel (hidden until clicked) -->
+                        <div id="mem-signin-panel" class="hidden bg-white/5 border border-white/10 rounded-3xl p-6" style="animation: slideDown 0.3s ease;">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-white font-bold">Welcome back</h4>
+                                <button onclick="hideMemberForms()" class="text-white/30 hover:text-white transition-colors text-sm"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <form onsubmit="handleMemberSignin(event)" class="space-y-3">
+                                <input type="email" id="si-email" required placeholder="Email address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                <input type="tel" id="si-phone" required placeholder="Phone number (to verify it's you)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-brand-gold transition-colors">
+                                <button type="submit" class="w-full bg-white/10 border border-white/15 text-white font-bold py-4 rounded-full hover:bg-brand-gold transition-colors text-sm mt-1">
+                                    Sign In via WhatsApp
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -271,7 +282,7 @@
                     </div>
                     <span class="pill mb-4 inline-flex"><i class="fa-solid fa-handshake-simple"></i> Networking Partner</span>
                     <h3 class="text-2xl font-bold mt-4 mb-3">FYP Connect</h3>
-                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">FYP Connect is a curated networking experience for business people — bringing together professionals, entrepreneurs, and decision-makers in spaces built for real connection. Chanta keeps the room powered with cold-pressed energy from first handshake to last conversation.</p>
+                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">FYP Connect is a curated experience built for creative industries — designers, producers, architects, and the founders shaping culture. It's where creative business people meet, connect, and build. Chanta keeps the room fuelled with cold-pressed energy from first handshake to last conversation.</p>
                     <div class="mt-6 pt-6 border-t border-brand-charcoal/5 flex items-center gap-2 text-sm text-brand-charcoal/40 font-medium">
                         <i class="fa-solid fa-location-dot text-brand-gold"></i> Johannesburg, South Africa
                     </div>
@@ -283,40 +294,56 @@
         <section>
             <p class="section-label">Hospitality &amp; Trade</p>
             <h2 class="text-4xl lg:text-5xl font-bold mb-4 leading-tight">In the hospitality<br>space?</h2>
-            <p class="text-brand-charcoal/50 mb-12 max-w-xl">If you run a hotel, restaurant, festival, or market, we'd love to be your juice partner. Fill in the form below and we'll get back to you — or start the conversation on WhatsApp right now.</p>
+            <p class="text-brand-charcoal/50 mb-12 max-w-xl">If you run a hotel, restaurant, festival, or market, we'd love to be your juice partner. Get in touch below or start the conversation on WhatsApp instantly.</p>
 
             <div class="grid lg:grid-cols-5 gap-8 items-start">
 
-                <!-- Contact form — wider -->
+                <!-- Progressive gravity: CTA first, form on demand -->
                 <div class="lg:col-span-3 bg-white border border-brand-charcoal/5 shadow-xl shadow-brand-charcoal/4 rounded-3xl p-8">
-                    <h3 class="text-2xl font-bold mb-1">Get in touch</h3>
-                    <p class="text-brand-charcoal/40 text-sm mb-6">Tell us about your business and we'll get back to you within 24 hours.</p>
 
-                    <form id="partnerForm" onsubmit="handlePartnerForm(event)" class="space-y-4">
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Name</label>
-                                <input type="text" id="p-name" required placeholder="Your full name" class="form-input">
-                            </div>
-                            <div>
-                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Business Name</label>
-                                <input type="text" id="p-biz" required placeholder="e.g. The Capital Hotel" class="form-input">
-                            </div>
+                    <!-- Default state -->
+                    <div id="partner-cta">
+                        <h3 class="text-2xl font-bold mb-2">Let's work together</h3>
+                        <p class="text-brand-charcoal/40 text-sm mb-8">Tell us about your business and we'll get back to you within 24 hours.</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="showPartnerForm()" class="flex-1 bg-brand-charcoal text-white font-bold py-4 rounded-full hover:bg-brand-gold transition-colors text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-pen-to-square"></i> Get in Touch
+                            </button>
+                            <button onclick="whatsappPartner()" class="flex-1 bg-[#25D366] text-white font-bold py-4 rounded-full hover:scale-[1.02] transition-transform text-sm flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Us
+                            </button>
                         </div>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Email</label>
-                                <input type="email" id="p-email" required placeholder="you@business.com" class="form-input">
-                            </div>
-                            <div>
-                                <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Phone Number</label>
-                                <input type="tel" id="p-phone" required placeholder="+27 60 000 0000" class="form-input">
-                            </div>
+                    </div>
+
+                    <!-- Form (hidden until Get in Touch clicked) -->
+                    <div id="partner-form-panel" class="hidden" style="animation: slideDown 0.3s ease;">
+                        <div class="flex items-center justify-between mb-5">
+                            <h3 class="text-xl font-bold">Get in touch</h3>
+                            <button onclick="hidePartnerForm()" class="text-brand-charcoal/30 hover:text-brand-charcoal transition-colors text-sm"><i class="fa-solid fa-xmark"></i></button>
                         </div>
-                        <div>
-                            <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Business Type</label>
+                        <form id="partnerForm" onsubmit="handlePartnerForm(event)" class="space-y-4">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Name</label>
+                                    <input type="text" id="p-name" required placeholder="Your full name" class="form-input">
+                                </div>
+                                <div>
+                                    <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Business Name</label>
+                                    <input type="text" id="p-biz" required placeholder="e.g. The Capital Hotel" class="form-input">
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Email</label>
+                                    <input type="email" id="p-email" required placeholder="you@business.com" class="form-input">
+                                </div>
+                                <div>
+                                    <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Phone</label>
+                                    <input type="tel" id="p-phone" required placeholder="+27 60 000 0000" class="form-input">
+                                </div>
+                            </div>
                             <select id="p-type" required class="form-input">
-                                <option value="" disabled selected>Select your category</option>
+                                <option value="" disabled selected>Business type</option>
                                 <option>Hotel or Lodge</option>
                                 <option>Restaurant or Café</option>
                                 <option>Festival or Event</option>
@@ -324,31 +351,24 @@
                                 <option>Corporate / Office</option>
                                 <option>Other</option>
                             </select>
-                        </div>
-                        <div>
-                            <label class="text-brand-charcoal/50 text-xs uppercase tracking-widest font-bold block mb-1.5">Short Message</label>
-                            <textarea id="p-message" required placeholder="Tell us a bit about your business and what you're looking for..." class="form-input"></textarea>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                            <button type="submit" class="flex-1 bg-brand-charcoal text-white font-bold py-4 rounded-full hover:bg-brand-gold transition-colors text-sm flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+                            <textarea id="p-message" required placeholder="Tell us a bit about your business and what you need..." class="form-input"></textarea>
+                            <div class="flex flex-col sm:flex-row gap-3 pt-1">
+                                <button type="submit" class="flex-1 bg-brand-charcoal text-white font-bold py-4 rounded-full hover:bg-brand-gold transition-colors text-sm flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+                                </button>
+                                <button type="button" onclick="whatsappPartner()" class="flex-1 bg-[#25D366] text-white font-bold py-4 rounded-full hover:scale-[1.02] transition-transform text-sm flex items-center justify-center gap-2">
+                                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Instead
+                                </button>
+                            </div>
+                        </form>
+                        <div id="partnerSuccess" class="hidden text-center py-6">
+                            <i class="fa-solid fa-check text-green-500 text-2xl mb-3 block"></i>
+                            <h4 class="text-xl font-bold mb-1">Message received!</h4>
+                            <p class="text-brand-charcoal/50 text-sm mb-4">We'll get back to you within 24 hours.</p>
+                            <button onclick="whatsappPartner()" class="inline-flex items-center gap-2 bg-[#25D366] text-white font-bold py-3 px-6 rounded-full text-sm">
+                                <i class="fa-brands fa-whatsapp"></i> Open WhatsApp
                             </button>
-                            <button type="button" onclick="whatsappPartner()" class="flex-1 bg-[#25D366] text-white font-bold py-4 rounded-full hover:scale-[1.02] transition-transform text-sm flex items-center justify-center gap-2">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Us Instead
-                            </button>
                         </div>
-                    </form>
-
-                    <!-- Form success -->
-                    <div id="partnerSuccess" class="hidden text-center py-8">
-                        <div class="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fa-solid fa-check text-green-500 text-2xl"></i>
-                        </div>
-                        <h4 class="text-xl font-bold mb-2">Message received!</h4>
-                        <p class="text-brand-charcoal/50 text-sm">We'll get back to you within 24 hours. In the meantime, feel free to WhatsApp us if you'd like a quicker chat.</p>
-                        <button onclick="whatsappPartner()" class="mt-6 inline-flex items-center gap-2 bg-[#25D366] text-white font-bold py-3 px-6 rounded-full text-sm hover:scale-[1.02] transition-transform">
-                            <i class="fa-brands fa-whatsapp"></i> Open WhatsApp
-                        </button>
                     </div>
                 </div>
 
@@ -396,12 +416,29 @@
         </div>
     </footer>
 
+    <style>
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
     <script>
         const WA_NUMBER = '27000000000'; // ← replace with real number
 
-        function whatsappPartner() {
-            const msg = encodeURIComponent("Hi Chanta, I'd love to explore a partnership for my business!");
-            window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+        /* ── MEMBER ACCOUNT ── */
+        function showMemberForm(mode) {
+            document.getElementById('mem-cta').classList.add('hidden');
+            if (mode === 'signup') {
+                document.getElementById('mem-signup-panel').classList.remove('hidden');
+            } else {
+                document.getElementById('mem-signin-panel').classList.remove('hidden');
+            }
+        }
+        function hideMemberForms() {
+            document.getElementById('mem-cta').classList.remove('hidden');
+            document.getElementById('mem-signup-panel').classList.add('hidden');
+            document.getElementById('mem-signin-panel').classList.add('hidden');
         }
 
         function handleMemberSignup(e) {
@@ -411,13 +448,33 @@
             const phone   = document.getElementById('mem-phone').value;
             const pack    = document.getElementById('mem-pack').value;
             const address = document.getElementById('mem-address').value;
-
-            // Send via WhatsApp so Chanta gets the signup immediately
             const msg = `Hi Chanta! I'd like to sign up as a member.\n\n👤 Name: ${first} ${last}\n📦 Pack: ${pack} Pack (monthly)\n📍 Address: ${address}\n📱 Phone: ${phone}`;
             window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-
             document.getElementById('memberSignupForm').classList.add('hidden');
             document.getElementById('memberSuccess').classList.remove('hidden');
+        }
+
+        function handleMemberSignin(e) {
+            e.preventDefault();
+            const email = document.getElementById('si-email').value;
+            const phone = document.getElementById('si-phone').value;
+            const msg = `Hi Chanta, I'd like to sign in to my member account.\n📧 Email: ${email}\n📱 Phone: ${phone}`;
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        /* ── PARTNER FORM ── */
+        function showPartnerForm() {
+            document.getElementById('partner-cta').classList.add('hidden');
+            document.getElementById('partner-form-panel').classList.remove('hidden');
+        }
+        function hidePartnerForm() {
+            document.getElementById('partner-cta').classList.remove('hidden');
+            document.getElementById('partner-form-panel').classList.add('hidden');
+        }
+
+        function whatsappPartner() {
+            const msg = encodeURIComponent("Hi Chanta, I'd love to explore a partnership for my business!");
+            window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
         }
 
         function handlePartnerForm(e) {
@@ -428,11 +485,8 @@
             const phone   = document.getElementById('p-phone').value;
             const type    = document.getElementById('p-type').value;
             const message = document.getElementById('p-message').value;
-
-            // Send via WhatsApp so enquiry is instantly visible
             const msg = `Partnership Enquiry\n\n👤 Name: ${name}\n🏢 Business: ${biz} (${type})\n📧 Email: ${email}\n📱 Phone: ${phone}\n\n💬 "${message}"`;
             window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-
             document.getElementById('partnerForm').classList.add('hidden');
             document.getElementById('partnerSuccess').classList.remove('hidden');
         }
