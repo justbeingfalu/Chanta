@@ -681,7 +681,10 @@
     }
 
     function makePayment() {
-        window.open(YOCO_PAYMENT_URL, '_blank');
+        const cur = JSON.parse(localStorage.getItem('chanta_current') || '{}');
+        const pack = cur.pack || '24';
+        const amountInCents = PACK_PRICES[pack] * 100; // Yoco expects cents
+        window.open(`https://pay.yoco.com/chanta?amount=${amountInCents}`, '_blank');
     }
 
     function updatePayment() {
