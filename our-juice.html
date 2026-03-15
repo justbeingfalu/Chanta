@@ -88,6 +88,64 @@
         footer { background: #242424; color: rgba(253,252,248,0.5); padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
         footer a { color: rgba(253,252,248,0.5); text-decoration: none; }
         footer a:hover { color: #D4AF37; }
+
+        /* ── MOBILE ────────────────────────────────────── */
+        @media (max-width: 768px) {
+            /* Nav */
+            nav { padding: 1rem 1.25rem; }
+            nav > div { gap: 1rem !important; }
+            nav a { font-size: 0.65rem; }
+
+            /* Hero — stack copy above bottle */
+            section[style*="grid-template-columns:1fr 1fr"] {
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: auto !important;
+                padding-top: 4.5rem !important;
+            }
+
+            /* Hero copy col — tighten padding */
+            section > div[style*="padding: 5rem 4rem 5rem 6rem"] {
+                padding: 2rem 1.25rem 1.5rem !important;
+            }
+
+            /* Bottle column — cap height, remove excess padding */
+            section > div[style*="padding:5rem 3rem"] {
+                padding: 1.5rem 2rem 3rem !important;
+            }
+            .float { max-height: 260px !important; }
+
+            /* Nutrition grid — stay 3 col but smaller */
+            div[style*="grid-template-columns:repeat(3,1fr)"] {
+                max-width: 100% !important;
+            }
+
+            /* Cold-pressed section */
+            section[style*="background:#242424"] {
+                padding: 4rem 1.25rem !important;
+            }
+
+            /* Coming soon section */
+            section[style*="padding:7rem"] {
+                padding: 3.5rem 1.25rem !important;
+            }
+            div[style*="grid-template-columns:repeat(auto-fit,minmax(320px"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* CTA strip */
+            section[style*="padding:5rem"] {
+                padding: 3.5rem 1.25rem !important;
+            }
+
+            /* Footer */
+            footer {
+                flex-direction: column !important;
+                gap: 1rem !important;
+                padding: 2rem 1.25rem !important;
+            }
+            footer > div { gap: 1rem !important; flex-wrap: wrap !important; }
+        }
     </style>
 </head>
 <body>

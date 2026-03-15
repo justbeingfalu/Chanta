@@ -81,6 +81,87 @@
         footer { background:#242424; color:rgba(253,252,248,0.4); padding:2.5rem; display:flex; align-items:center; justify-content:space-between; font-size:0.8rem; }
         footer a { color:rgba(253,252,248,0.4); text-decoration:none; }
         footer a:hover { color:#D4AF37; }
+
+        /* ── MOBILE ────────────────────────────────────── */
+        @media (max-width: 768px) {
+            /* Nav */
+            nav { padding: 1rem 1.25rem; }
+            nav > div { gap: 1rem !important; }
+            nav a { font-size: 0.65rem; }
+
+            /* Hero — stack image above copy */
+            section[style*="grid-template-columns:1fr 1fr"] {
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: auto !important;
+            }
+
+            /* Hero image col */
+            section > div[style*="min-height:90vh"] {
+                min-height: 55vmax !important;
+                max-height: 420px;
+            }
+
+            /* Hero image right-to-left gradient gone on mobile */
+            section > div[style*="min-height:90vh"] > div[style*="gradient(to right"] {
+                display: none !important;
+            }
+
+            /* Hero copy col */
+            section > div[style*="padding:5rem 5rem 5rem 4rem"] {
+                padding: 2.5rem 1.25rem !important;
+            }
+
+            /* Dark stats section */
+            section[style*="background:#242424"] > div {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 2rem !important;
+            }
+            section[style*="background:#242424"] > div > div[style*="grid-template-columns:1fr 1fr"] {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 1rem !important;
+            }
+            section[style*="background:#242424"] {
+                padding: 4rem 1.25rem !important;
+            }
+
+            /* Timeline section */
+            section[style*="padding:8rem"] {
+                padding: 3.5rem 1.25rem !important;
+            }
+            section[style*="padding:8rem"] h2 {
+                margin-bottom: 2.5rem !important;
+            }
+
+            /* Process + belief section */
+            section[style*="grid-template-columns:1fr 1fr"][style*="min-height:70vh"] {
+                flex-direction: column !important;
+            }
+            section[style*="grid-template-columns:1fr 1fr"][style*="min-height:70vh"] > div:first-child {
+                min-height: 280px !important;
+            }
+            section[style*="grid-template-columns:1fr 1fr"][style*="min-height:70vh"] > div:last-child {
+                padding: 3rem 1.5rem !important;
+            }
+
+            /* DTC callout */
+            section[style*="padding:7rem"] {
+                padding: 3.5rem 1.25rem !important;
+            }
+
+            /* Closing CTA */
+            section[style*="padding:6rem"] {
+                padding: 3.5rem 1.25rem !important;
+            }
+
+            /* Footer */
+            footer {
+                flex-direction: column !important;
+                gap: 1rem !important;
+                padding: 2rem 1.25rem !important;
+            }
+        }
     </style>
 </head>
 <body>
