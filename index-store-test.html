@@ -130,8 +130,6 @@
             top: 0;
             left: 0;
             z-index: 10;
-            pointer-events: none;
-            opacity: 0;
         }
 
         .ticker-container {
@@ -612,14 +610,14 @@
         }
         // ─── SCROLL TRACK CALCULATION ───────────────
         function updateSpacer() {
-            const bundles = document.querySelector('#bundles-layer');
-            if(bundles) {
-                // Determine the exact horizontal pixel length of the track
-                const paddingRight = window.innerWidth > 1024 ? window.innerWidth * 0.1 : window.innerWidth * 0.05;
-                const rightEdge = bundles.offsetLeft + bundles.offsetWidth + paddingRight;
+            const ticker = document.querySelector('#ticker');
+            if(ticker) {
+                // Ensure exact 1:1 scroll ratio and prevent text cut off
+                const paddingRight = window.innerWidth > 1024 ? window.innerWidth * 0.1 : window.innerWidth * 0.1;
+                const maxScroll = ticker.scrollWidth - window.innerWidth + paddingRight;
                 
-                // Multiply track length by 2 to slow down scrolling speed so it feels luxurious, not too fast
-                document.getElementById('scroll-spacer').style.height = (rightEdge * 2 + window.innerHeight) + 'px';
+                // Add exactly window height so scroll tracks identically to horizontal movement
+                document.getElementById('scroll-spacer').style.height = (maxScroll + window.innerHeight) + 'px';
             }
         }
         updateSpacer();
@@ -654,8 +652,6 @@
         });
 
         // 1. Hero out (fade out image and text) - INDEPENDENT SCROLL TRIGGER
-        // This ensures the hero fades instantly within the first 600px of scrolling,
-        // rather than being stretched across the massive 10,000px+ horizontal timeline.
         gsap.to("#intro", {
             opacity: 0,
             scale: 1.05,
@@ -671,25 +667,11 @@
             }
         });
 
-        // 2. Ticker in & allow pointer events
-        tl.to("#ticker-wrap", { opacity: 1, pointerEvents: "auto", duration: 0.2 }, 0);
-
-        // 3. Horizontal scroll movement
-        // We move the entire #ticker container horizontally based on its width.
-        const ticker = document.querySelector('#ticker');
-        
-        // Use a function to recalculate the distance dynamically if resized
+        // 2. Horizontal scroll movement
         const getScrollAmount = () => {
-            const bundles = document.querySelector('#bundles-layer');
             const ticker = document.querySelector('#ticker');
-            
-            // Safeguard: Ensure the right edge of the last block doesn't bleed off screen.
-            // Give extra padding on the right to prevent clipping the outer shadow on narrow screens and ensure "Choose Your Bundle" stays framed.
-            // Increased to 20% on desktop, 12% on mobile
-            const paddingRight = window.innerWidth > 1024 ? window.innerWidth * 0.2 : window.innerWidth * 0.12;
-            const bundlesRightEdge = bundles.offsetLeft + bundles.offsetWidth;
-            const maxScroll = bundlesRightEdge - window.innerWidth + paddingRight;
-
+            const paddingRight = window.innerWidth > 1024 ? window.innerWidth * 0.1 : window.innerWidth * 0.1;
+            const maxScroll = ticker.scrollWidth - window.innerWidth + paddingRight;
             return -maxScroll;
         };
 
@@ -699,18 +681,16 @@
             duration: 20
         });
 
-        tl.add(tween, "tickerStart");
+        // Add to timeline EXACTLY at 0 so it starts moving instantly on user input
+        tl.add(tween, 0);
 
-        // 4. Word staggering (Removed for horizontal optimization)
-        // Words are now permanently visible on the ticker to prevent re-paints.
+        // 3. Color Pulse
+        // Sync color pulses with horizontal track
+        tl.to("#word-pure", { color: "#D4AF37",  ease: "sine.inOut", duration: 1.5 }, 8);
+        tl.to("#word-sunshine", { color: "#D4AF37", ease: "sine.inOut", duration: 1.5 }, 9.5);
 
-        // 5. Color Pulse
-        // Pulse purely when passing horizontally
-        tl.to("#word-pure", { color: "#D4AF37",  ease: "sine.inOut", duration: 1.5 }, "tickerStart+=8");
-        tl.to("#word-sunshine", { color: "#D4AF37", ease: "sine.inOut", duration: 1.5 }, "tickerStart+=9.5");
-
-        // 6. Reveal Bundles Section as we arrive
-        tl.to("#bundles-layer", { opacity: 1, duration: 2 }, "tickerStart+=12");
+        // 4. Reveal Bundles Section as we arrive
+        tl.to("#bundles-layer", { opacity: 1, duration: 2 }, 12);
 
         window.addEventListener('resize', () => ScrollTrigger.refresh());
     </script>
