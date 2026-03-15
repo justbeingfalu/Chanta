@@ -761,40 +761,35 @@
         };
 
         const wordBoxes = Array.from(document.querySelectorAll('.word-box'));
-        const CENTER_X    = () => window.innerWidth / 2;
-        const POP_RADIUS  = () => window.innerWidth * 0.25; // Words within this px distance of center get the effect
-        const MAX_SCALE   = 1.35;
+        const CENTER_X   = () => window.innerWidth / 2;
+        const POP_RADIUS = () => window.innerWidth * 0.25;
+        const MAX_SCALE  = 1.35;
 
         function updateWordPop() {
-            const cx = CENTER_X();
+            const cx     = CENTER_X();
             const radius = POP_RADIUS();
 
             wordBoxes.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const wordCx = rect.left + rect.width / 2;
-                const dist   = Math.abs(wordCx - cx);
-                // proximity goes 1→0 as word moves from center to edge of radius
+                const rect    = el.getBoundingClientRect();
+                const wordCx  = rect.left + rect.width / 2;
+                const dist    = Math.abs(wordCx - cx);
                 const proximity = Math.max(0, 1 - dist / radius);
-                // Ease with a smooth curve (smoothstep)
-                const eased = proximity * proximity * (3 - 2 * proximity);
+                // smoothstep easing
+                const eased   = proximity * proximity * (3 - 2 * proximity);
 
-                // Scale — visual enlargement
-                const scale = 1 + (MAX_SCALE - 1) * eased;
-                el.style.transform = `scale(${scale.toFixed(3)})`;
+                // font-size is a layout property so the flex container
+                // naturally expands and pushes neighbours apart — no overlap.
+                const sizeFactor = 1 + (MAX_SCALE - 1) * eased;
+                el.style.fontSize  = `${sizeFactor.toFixed(3)}em`;
+                el.style.transform = ''; // clear any leftover scale
 
-                // Margin push — physically displaces neighbours in the layout
-                // Max 0.25em of extra side margin at full proximity
-                const extraMargin = (0.3 * eased).toFixed(3);
-                el.style.marginLeft  = `${extraMargin}em`;
-                el.style.marginRight = `${extraMargin}em`;
-
-                // Color
+                // Color transitions for special words
                 const colorKey = el.id;
                 if (colorKey && WORD_COLORS[colorKey]) {
-                    el.style.color = eased > 0.01 ? WORD_COLORS[colorKey] : '';
+                    el.style.color   = eased > 0.01 ? WORD_COLORS[colorKey] : '';
                     el.style.opacity = eased > 0.01 ? (0.6 + 0.4 * eased).toFixed(3) : '';
                 } else {
-                    // Non-special words: slightly dim when off-center
+                    // Dim off-center words gently
                     el.style.opacity = (0.5 + 0.5 * eased).toFixed(3);
                 }
             });
