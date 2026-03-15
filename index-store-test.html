@@ -167,6 +167,15 @@
         }
 
         /* Bundles in Ticker */
+        .word-box {
+            display: inline-block;
+            margin: 0 0.1em;
+            color: #1a1a1a;
+            will-change: transform, color;
+            transform-origin: center center;
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        color 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
         .bundles-section {
             display: inline-flex;
             gap: 2rem;
@@ -247,9 +256,9 @@
                 <div class="word-box">gives</div>
                 <div class="word-box">you</div>
                 <div class="logo-box"><img src="logo-transparent.png" alt="Chanta" class="juice-logo"></div>
-                <div class="word-box">oranges...</div>
+                <div class="word-box" id="word-orange">oranges...</div>
                 <div class="word-box">Drink</div>
-                <div class="word-box">Chanta.</div>
+                <div class="word-box" id="word-chanta">Chanta.</div>
                 
                 <div class="word-box" style="margin-left: 10vw;">Nothing</div>
                 <div class="word-box">added.</div>
@@ -399,6 +408,21 @@
                             <p id="delivery-total" class="text-3xl font-bold text-brand-charcoal">R —</p>
                         </div>
                         <p id="delivery-time-note" class="text-xs text-gray-400 mt-3 text-center"></p>
+                    </div>
+
+                    <!-- Same-day delivery cutoff countdown -->
+                    <div id="cutoff-timer-wrap" class="mt-6 mb-2">
+                        <div id="cutoff-available" class="flex items-center gap-3 bg-brand-sage/10 border border-brand-sage/30 rounded-2xl px-4 py-3">
+                            <i id="cutoff-icon" class="fa-solid fa-clock text-brand-gold text-lg shrink-0"></i>
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-brand-charcoal/60 mb-0.5">Same-day cutoff</p>
+                                <p id="cutoff-text" class="text-sm font-bold text-brand-charcoal">Calculating...</p>
+                            </div>
+                        </div>
+                        <div id="cutoff-passed" class="hidden flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-3">
+                            <i class="fa-solid fa-moon text-gray-400 text-lg shrink-0"></i>
+                            <p class="text-sm text-gray-500">Same-day cutoff passed. <strong>Next-day delivery</strong> available.</p>
+                        </div>
                     </div>
 
                     <div id="checkout-btns" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
@@ -575,6 +599,53 @@
             window.open(`${YOCO_BASE_URL}?amount=${total}`, '_blank');
         }
 
+        // ─── SAME-DAY DELIVERY CUTOFF TIMER ─────────────────────────────
+        function updateCutoffTimer() {
+            // Cutoff is 10:00 AM SAST (UTC+2) every day
+            const now = new Date();
+            // Build today's 10am in local time
+            const cutoff = new Date(now);
+            cutoff.setHours(10, 0, 0, 0);
+
+            const available = document.getElementById('cutoff-available');
+            const passed    = document.getElementById('cutoff-passed');
+            const textEl    = document.getElementById('cutoff-text');
+            const iconEl    = document.getElementById('cutoff-icon');
+
+            if (now >= cutoff) {
+                // Cutoff has passed
+                available.classList.add('hidden');
+                passed.classList.remove('hidden');
+            } else {
+                // Still open — compute remaining time
+                const diffMs  = cutoff - now;
+                const hrs  = Math.floor(diffMs / 3_600_000);
+                const mins = Math.floor((diffMs % 3_600_000) / 60_000);
+                const secs = Math.floor((diffMs % 60_000) / 1_000);
+
+                const pad = (n) => String(n).padStart(2, '0');
+                const isUrgent = diffMs < 60 * 60 * 1000; // last 60 min
+
+                textEl.textContent = hrs > 0
+                    ? `Order in the next ${hrs}h ${pad(mins)}m for same-day delivery`
+                    : `Only ${pad(mins)}m ${pad(secs)}s left for same-day delivery!`;
+
+                // Swap to urgency styling in last 60 min
+                if (isUrgent) {
+                    iconEl.className = 'fa-solid fa-fire text-red-500 text-lg shrink-0 animate-pulse';
+                    available.className = available.className
+                        .replace('bg-brand-sage/10 border-brand-sage/30', 'bg-red-50 border-red-200');
+                } else {
+                    iconEl.className = 'fa-solid fa-clock text-brand-gold text-lg shrink-0';
+                }
+
+                available.classList.remove('hidden');
+                passed.classList.add('hidden');
+            }
+        }
+        updateCutoffTimer();
+        setInterval(updateCutoffTimer, 1000);
+
         function openOperatingRoom() {
             const overlay = document.getElementById('operating-room-overlay');
             const panel = document.getElementById('operating-room-panel');
@@ -674,15 +745,60 @@
         // Add to timeline EXACTLY at 0 so it starts moving instantly on user input
         tl.add(tween, 0);
 
-        // 3. Color Pulse
-        // Sync color pulses with horizontal track
-        tl.to("#word-pure", { color: "#D4AF37",  ease: "sine.inOut", duration: 1.5 }, 8);
-        tl.to("#word-sunshine", { color: "#D4AF37", ease: "sine.inOut", duration: 1.5 }, 9.5);
+        // Color transitions now handled by the center-proximity RAF loop below.
 
-        // 4. Reveal Bundles Section as we arrive
+        // 3. Reveal Bundles Section as we arrive
         tl.to("#bundles-layer", { opacity: 1, duration: 2 }, 12);
 
         window.addEventListener('resize', () => ScrollTrigger.refresh());
+
+        // ─── CENTER PROXIMITY WORD POP ──────────────────────────────────
+        // Colors each special word and scales all words based on distance from viewport center X
+        const WORD_COLORS = {
+            'word-orange':   '#F97316', // orange
+            'word-chanta':   '#2D6A4F', // forest green
+            'word-pure':     '#D4AF37', // gold
+            'word-sunshine': '#D4AF37', // gold
+        };
+
+        const wordBoxes = Array.from(document.querySelectorAll('.word-box'));
+        const CENTER_X    = () => window.innerWidth / 2;
+        const POP_RADIUS  = () => window.innerWidth * 0.25; // Words within this px distance of center get the effect
+        const MAX_SCALE   = 1.35;
+
+        function updateWordPop() {
+            const cx = CENTER_X();
+            const radius = POP_RADIUS();
+
+            wordBoxes.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const wordCx = rect.left + rect.width / 2;
+                const dist   = Math.abs(wordCx - cx);
+                // proximity goes 1→0 as word moves from center to edge of radius
+                const proximity = Math.max(0, 1 - dist / radius);
+                // Ease with a smooth curve
+                const eased = proximity * proximity * (3 - 2 * proximity); // smoothstep
+
+                // Scale
+                const scale = 1 + (MAX_SCALE - 1) * eased;
+                el.style.transform = `scale(${scale.toFixed(3)})`;
+
+                // Color
+                const colorKey = el.id;
+                if (colorKey && WORD_COLORS[colorKey]) {
+                    // Interpolate between base (#1a1a1a) and target color
+                    el.style.color = eased > 0.01 ? WORD_COLORS[colorKey] : '';
+                    el.style.opacity = eased > 0.01 ? (0.6 + 0.4 * eased).toFixed(3) : '';
+                } else {
+                    // Non-special words: just slightly dim when not in focus
+                    el.style.opacity = (0.5 + 0.5 * eased).toFixed(3);
+                }
+            });
+
+            requestAnimationFrame(updateWordPop);
+        }
+
+        requestAnimationFrame(updateWordPop);
     </script>
 </body>
 </html>
