@@ -250,7 +250,7 @@
             <!-- Stats row -->
             <div class="grid grid-cols-3 gap-4">
                 <div class="stat-chip">
-                    <p class="text-brand-gold text-2xl font-bold" id="stat-orders">4</p>
+                    <p class="text-brand-gold text-2xl font-bold" id="stat-orders">&mdash;</p>
                     <p class="text-brand-charcoal/40 text-xs uppercase tracking-widest font-bold mt-0.5">Deliveries</p>
                 </div>
                 <div class="stat-chip">
@@ -348,21 +348,21 @@
         <section id="sec-payment" class="section-panel fade-up max-w-4xl mx-auto space-y-6">
             <h1 class="text-3xl font-bold">Payment</h1>
 
-            <!-- Current billing -->
+            <!-- Payment method -->
             <div class="dash-card">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="font-bold">Payment Method</h3>
                     <span class="badge badge-green"><i class="fa-solid fa-lock"></i> Secure</span>
                 </div>
-                <div class="flex items-center gap-4 bg-brand-charcoal/3 border border-brand-charcoal/8 rounded-2xl p-4">
-                    <div class="w-12 h-8 bg-brand-charcoal rounded-lg flex items-center justify-center">
-                        <i class="fa-brands fa-cc-visa text-white"></i>
+                <div class="flex items-center gap-4 bg-brand-charcoal/3 border border-brand-charcoal/8 rounded-2xl p-5">
+                    <div class="w-10 h-10 bg-brand-gold/10 rounded-xl flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-credit-card text-brand-gold"></i>
                     </div>
                     <div>
-                        <p class="font-semibold text-sm">Visa ending in 4242</p>
-                        <p class="text-brand-charcoal/40 text-xs">Expires 12/27</p>
+                        <p class="font-semibold text-sm">No payment method on file</p>
+                        <p class="text-brand-charcoal/40 text-xs">Set up EFT or card payment via WhatsApp</p>
                     </div>
-                    <button class="ml-auto text-brand-gold text-xs font-bold hover:underline" onclick="updatePayment()">Update</button>
+                    <button onclick="updatePayment()" class="ml-auto bg-brand-gold text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-brand-charcoal transition-colors">Set Up</button>
                 </div>
             </div>
 
@@ -466,23 +466,11 @@
 
 <script>
     const WA_NUMBER = '27000000000';
+    const YOCO_PAYMENT_URL = 'https://pay.yoco.com/chanta'; // ← replace with your real Yoco payment link
 
-    // ── Mock data ──────────────────────────────────────────
+    // ── Pack config ─────────────────────────────────────────
     const PACK_PRICES = { '12': 339, '24': 500, '54': 1469 };
     const PACK_LABELS = { '12': '12 Pack', '24': '24 Pack', '54': '54 Pack' };
-
-    const MOCK_ORDERS = [
-        { id: 'CH-0041', date: '10 Mar 2026', pack: '24 Pack', status: 'delivered', amount: 'R 500' },
-        { id: 'CH-0037', date: '10 Feb 2026', pack: '24 Pack', status: 'delivered', amount: 'R 500' },
-        { id: 'CH-0031', date: '10 Jan 2026', pack: '24 Pack', status: 'delivered', amount: 'R 500' },
-        { id: 'CH-0025', date: '10 Dec 2025', pack: '24 Pack', status: 'delivered', amount: 'R 500' },
-    ];
-
-    const BILLING = [
-        { date: '10 Mar 2026', desc: '24 Pack — Monthly', amount: 'R 500', status: 'Paid' },
-        { date: '10 Feb 2026', desc: '24 Pack — Monthly', amount: 'R 500', status: 'Paid' },
-        { date: '10 Jan 2026', desc: '24 Pack — Monthly', amount: 'R 500', status: 'Paid' },
-    ];
 
     // ── Auth helpers ────────────────────────────────────────
     function switchAuthTab(tab) {
@@ -551,8 +539,9 @@
         const greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
         document.getElementById('dash-greeting').textContent = `${greet}, ${user.first} 👋`;
 
-        // Pack info
-        const pack = user.pack || '24';
+        // Stats
+        const orders = JSON.parse(localStorage.getItem(`chanta_orders_${user.email}`) || '[]');
+        document.getElementById('stat-orders').textContent = orders.length || '—';
         document.getElementById('stat-pack').textContent   = pack;
         document.getElementById('ov-pack').textContent     = PACK_LABELS[pack];
         document.getElementById('sub-plan-label').textContent = `${PACK_LABELS[pack]} / monthly`;
@@ -566,12 +555,12 @@
         document.getElementById('ov-delivery-date').textContent  = next10;
         document.getElementById('pay-due-date').textContent      = next10;
 
-        // Recent orders (overview)
-        renderOrders('ov-recent-orders', MOCK_ORDERS.slice(0, 2));
-        renderOrders('orders-list', MOCK_ORDERS);
+        // Orders
+        renderOrders('ov-recent-orders', orders.slice(-2).reverse());
+        renderOrders('orders-list', orders.slice().reverse());
 
-        // Billing history
-        renderBilling();
+        // Billing
+        renderBilling(orders, pack);
 
         // Plan options
         renderPlanOptions(pack);
@@ -586,6 +575,15 @@
 
     function renderOrders(containerId, orders) {
         const el = document.getElementById(containerId);
+        if (!orders || orders.length === 0) {
+            el.innerHTML = `
+                <div class="text-center py-8">
+                    <i class="fa-solid fa-box-open text-brand-charcoal/20 text-3xl mb-3 block"></i>
+                    <p class="text-brand-charcoal/40 text-sm">No orders yet — your first delivery is on its way soon.</p>
+                </div>
+            `;
+            return;
+        }
         el.innerHTML = orders.map(o => `
             <div class="flex items-center justify-between py-3 border-b border-brand-charcoal/5 last:border-0">
                 <div class="flex items-center gap-3">
@@ -605,17 +603,21 @@
         `).join('');
     }
 
-    function renderBilling() {
+    function renderBilling(orders, pack) {
         const el = document.getElementById('billing-list');
-        el.innerHTML = BILLING.map(b => `
+        if (!orders || orders.length === 0) {
+            el.innerHTML = `<p class="text-brand-charcoal/40 text-sm text-center py-4">No billing history yet.</p>`;
+            return;
+        }
+        el.innerHTML = orders.slice().reverse().map(o => `
             <div class="flex items-center justify-between py-3 border-b border-brand-charcoal/5 last:border-0">
                 <div>
-                    <p class="font-semibold text-sm">${b.desc}</p>
-                    <p class="text-brand-charcoal/40 text-xs">${b.date}</p>
+                    <p class="font-semibold text-sm">${PACK_LABELS[pack] || o.pack} — Monthly</p>
+                    <p class="text-brand-charcoal/40 text-xs">${o.date}</p>
                 </div>
                 <div class="text-right flex items-center gap-3">
-                    <p class="font-bold text-sm">${b.amount}</p>
-                    <span class="badge badge-green">${b.status}</span>
+                    <p class="font-bold text-sm">${o.amount}</p>
+                    <span class="badge badge-green">Paid</span>
                 </div>
             </div>
         `).join('');
@@ -679,10 +681,7 @@
     }
 
     function makePayment() {
-        const cur = JSON.parse(localStorage.getItem('chanta_current') || '{}');
-        const pack = cur.pack || '24';
-        const wa = `Hi Chanta, I'd like to make a payment of R ${PACK_PRICES[pack]} for my ${PACK_LABELS[pack]} subscription.`;
-        window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(wa)}`, '_blank');
+        window.open(YOCO_PAYMENT_URL, '_blank');
     }
 
     function updatePayment() {
