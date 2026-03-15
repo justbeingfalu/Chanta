@@ -680,11 +680,9 @@
         function updateSpacer() {
             const ticker = document.querySelector('#ticker');
             if(ticker) {
-                // Ensure exact 1:1 scroll ratio and prevent text cut off
-                const paddingRight = window.innerWidth > 1024 ? window.innerWidth * 0.1 : window.innerWidth * 0.1;
+                // 40% extra padding ensures 'Choose Your Bundle' is never clipped
+                const paddingRight = window.innerWidth * 0.4;
                 const maxScroll = ticker.scrollWidth - window.innerWidth + paddingRight;
-                
-                // Add exactly window height so scroll tracks identically to horizontal movement
                 document.getElementById('scroll-spacer').style.height = (maxScroll + window.innerHeight) + 'px';
             }
         }
@@ -731,7 +729,8 @@
         // 2. Horizontal scroll movement
         const getScrollAmount = () => {
             const ticker = document.querySelector('#ticker');
-            const paddingRight = window.innerWidth > 1024 ? window.innerWidth * 0.1 : window.innerWidth * 0.1;
+            // 40% extra padding ensures 'Choose Your Bundle' is never clipped
+            const paddingRight = window.innerWidth * 0.4;
             const maxScroll = ticker.scrollWidth - window.innerWidth + paddingRight;
             return -maxScroll;
         };
@@ -776,21 +775,26 @@
                 const dist   = Math.abs(wordCx - cx);
                 // proximity goes 1→0 as word moves from center to edge of radius
                 const proximity = Math.max(0, 1 - dist / radius);
-                // Ease with a smooth curve
-                const eased = proximity * proximity * (3 - 2 * proximity); // smoothstep
+                // Ease with a smooth curve (smoothstep)
+                const eased = proximity * proximity * (3 - 2 * proximity);
 
-                // Scale
+                // Scale — visual enlargement
                 const scale = 1 + (MAX_SCALE - 1) * eased;
                 el.style.transform = `scale(${scale.toFixed(3)})`;
+
+                // Margin push — physically displaces neighbours in the layout
+                // Max 0.25em of extra side margin at full proximity
+                const extraMargin = (0.3 * eased).toFixed(3);
+                el.style.marginLeft  = `${extraMargin}em`;
+                el.style.marginRight = `${extraMargin}em`;
 
                 // Color
                 const colorKey = el.id;
                 if (colorKey && WORD_COLORS[colorKey]) {
-                    // Interpolate between base (#1a1a1a) and target color
                     el.style.color = eased > 0.01 ? WORD_COLORS[colorKey] : '';
                     el.style.opacity = eased > 0.01 ? (0.6 + 0.4 * eased).toFixed(3) : '';
                 } else {
-                    // Non-special words: just slightly dim when not in focus
+                    // Non-special words: slightly dim when off-center
                     el.style.opacity = (0.5 + 0.5 * eased).toFixed(3);
                 }
             });
