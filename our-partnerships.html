@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Partnerships — Chanta</title>
+    <meta name="description" content="Chanta partners with brands and spaces that share our love for real, honest living. Explore partnerships, subscriptions, and wholesale opportunities.">
+
+    <!-- Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#F9D151',
+                            gold:   '#D4AF37',
+                            charcoal: '#242424',
+                            sage:   '#E3EDE8',
+                            earth:  '#8B7355',
+                            cream:  '#FDFCF8',
+                            forest: '#2D3A2D',
+                            green:  '#2D6A4F',
+                        }
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                        '5xl': '3rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root { --bg: #FDFCF8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: #242424;
+            font-family: 'General Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 2.5rem;
+            background: rgba(253,252,248,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(36,36,36,0.06);
+        }
+        nav a { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: #242424; opacity: 0.55; transition: opacity 0.2s; }
+        nav a:hover { opacity: 1; }
+        nav .logo { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; opacity: 1; }
+
+        /* Hero */
+        .page-hero {
+            min-height: 55vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 8rem 2.5rem 4rem;
+            background: linear-gradient(160deg, #2D3A2D 0%, #1a2a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 70% 40%, rgba(212,175,55,0.18) 0%, transparent 60%);
+        }
+        .page-hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 700;
+            line-height: 0.95;
+            color: #FDFCF8;
+            position: relative;
+        }
+        .page-hero p {
+            font-size: 1.1rem;
+            color: rgba(253,252,248,0.6);
+            max-width: 540px;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        /* Section label */
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #D4AF37;
+            margin-bottom: 1rem;
+        }
+
+        /* Subscription card */
+        .sub-card {
+            background: #242424;
+            border-radius: 2.5rem;
+            padding: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .sub-card::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%);
+        }
+
+        /* Partner card */
+        .partner-card {
+            background: white;
+            border: 1px solid rgba(36,36,36,0.07);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .partner-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(36,36,36,0.08);
+        }
+
+        /* Hospitality CTA */
+        .hospitality-cta {
+            background: linear-gradient(135deg, #2D6A4F 0%, #1a4a32 100%);
+            border-radius: 2.5rem;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hospitality-cta::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; right: -40px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
+        }
+
+        /* Pill tags */
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(212,175,55,0.12);
+            color: #D4AF37;
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 999px;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        footer {
+            background: #242424;
+            color: rgba(253,252,248,0.5);
+            padding: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+        footer a { color: rgba(253,252,248,0.5); text-decoration: none; }
+        footer a:hover { color: #D4AF37; }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index-store-test.html" class="logo">Chanta</a>
+        <div class="flex gap-8">
+            <a href="our-juice.html">Our Juice</a>
+            <a href="our-story.html">Our Story</a>
+            <a href="our-partnerships.html" style="opacity:1;">Partnerships</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <p class="section-label">Community &amp; Commerce</p>
+        <h1>Real<br>partnerships,<br><span style="color:#D4AF37;">shared roots.</span></h1>
+        <p>We partner with people and places who believe in the same things we do — real ingredients, honest work, and showing up for their community.</p>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-6 lg:px-10 py-20 space-y-28">
+
+        <!-- ── SUBSCRIPTION SECTION ── -->
+        <section>
+            <p class="section-label">For Regular Lovers</p>
+            <h2 class="text-4xl lg:text-5xl font-bold mb-12 leading-tight">Subscribe &amp; save.<br>Every month.</h2>
+
+            <div class="sub-card">
+                <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="pill mb-6 inline-flex"><i class="fa-solid fa-star"></i> Chanta Members</span>
+                        <h3 class="text-3xl font-bold text-white mt-4 mb-4">Monthly Subscription</h3>
+                        <p class="text-white/60 text-base mb-8 leading-relaxed">Join the Chanta circle. A monthly subscription that keeps your fridge stocked with cold-pressed sunshine — at a discount, with free delivery, every time.</p>
+
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-start gap-3 text-white/80">
+                                <i class="fa-solid fa-circle-check text-brand-gold mt-0.5 shrink-0"></i>
+                                <span><strong class="text-white">Free delivery</strong> on every order, always</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-white/80">
+                                <i class="fa-solid fa-circle-check text-brand-gold mt-0.5 shrink-0"></i>
+                                <span><strong class="text-white">15% off</strong> every pack — the longer you stay, the more you save</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-white/80">
+                                <i class="fa-solid fa-circle-check text-brand-gold mt-0.5 shrink-0"></i>
+                                <span><strong class="text-white">Pause or cancel</strong> anytime — no lock-ins, no hassle</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-white/80">
+                                <i class="fa-solid fa-circle-check text-brand-gold mt-0.5 shrink-0"></i>
+                                <span><strong class="text-white">First access</strong> to new flavours and seasonal drops</span>
+                            </li>
+                        </ul>
+
+                        <a href="https://wa.me/27000000000?text=Hi%20Chanta%2C%20I%27d%20like%20to%20sign%20up%20for%20a%20monthly%20subscription%20please!"
+                           target="_blank"
+                           class="inline-flex items-center gap-3 bg-brand-gold text-white font-bold py-4 px-8 rounded-full hover:bg-white hover:text-brand-charcoal transition-colors text-sm">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            Start My Subscription
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+                            <p class="text-brand-gold text-3xl font-bold mb-1">15%</p>
+                            <p class="text-white/50 text-xs uppercase tracking-widest font-bold">Member Discount</p>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+                            <p class="text-brand-gold text-3xl font-bold mb-1">R0</p>
+                            <p class="text-white/50 text-xs uppercase tracking-widest font-bold">Delivery Fee</p>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center col-span-2">
+                            <p class="text-brand-gold text-3xl font-bold mb-1">∞</p>
+                            <p class="text-white/50 text-xs uppercase tracking-widest font-bold">Sunshine, Always</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── CURRENT PARTNERS ── -->
+        <section>
+            <p class="section-label">Who We Roll With</p>
+            <h2 class="text-4xl lg:text-5xl font-bold mb-12 leading-tight">Our partners.</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+
+                <!-- Bare -->
+                <div class="partner-card">
+                    <div class="h-20 flex items-center mb-6">
+                        <img src="bare-logo.png" alt="Bare" class="h-12 object-contain" style="filter: brightness(0);">
+                    </div>
+                    <span class="pill mb-4 inline-flex"><i class="fa-solid fa-handshake-simple"></i> Refreshment Partner</span>
+                    <h3 class="text-2xl font-bold mt-4 mb-3">Bare</h3>
+                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">Bare is where we pour. As their official refreshment partner, Chanta cold-pressed juice is the drink their community reaches for. Real energy, real ingredients — at every Bare event and session.</p>
+                    <div class="mt-6 pt-6 border-t border-brand-charcoal/5 flex items-center gap-2 text-sm text-brand-charcoal/40 font-medium">
+                        <i class="fa-solid fa-location-dot text-brand-gold"></i> Cape Town, South Africa
+                    </div>
+                </div>
+
+                <!-- FYP Connect -->
+                <div class="partner-card">
+                    <div class="h-20 flex items-center mb-6">
+                        <div class="text-3xl font-black tracking-tight" style="font-family:'General Sans',sans-serif;">
+                            FYP <span style="color:#D4AF37;">Connect</span>
+                        </div>
+                    </div>
+                    <span class="pill mb-4 inline-flex"><i class="fa-solid fa-handshake-simple"></i> Creative Partner</span>
+                    <h3 class="text-2xl font-bold mt-4 mb-3">FYP Connect</h3>
+                    <p class="text-brand-charcoal/60 leading-relaxed text-sm">FYP Connect is a curated space for creative connection — bringing together artists, makers, and culture shapers. We keep the room fuelled with cold-pressed juice because good ideas deserve good energy.</p>
+                    <div class="mt-6 pt-6 border-t border-brand-charcoal/5 flex items-center gap-2 text-sm text-brand-charcoal/40 font-medium">
+                        <i class="fa-solid fa-location-dot text-brand-gold"></i> Cape Town, South Africa
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── HOSPITALITY CTA ── -->
+        <section>
+            <div class="hospitality-cta">
+                <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="inline-flex items-center gap-2 text-brand-gold text-xs font-bold uppercase tracking-widest mb-6">
+                            <i class="fa-solid fa-building"></i> Hospitality &amp; Trade
+                        </span>
+                        <h2 class="text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+                            In the hospitality<br>space?
+                        </h2>
+                        <p class="text-white/60 leading-relaxed mb-8">
+                            If you run a hotel, restaurant, festival, or market, we'd love to be your juice partner. We work with spaces that care about what they put in front of their people — and we'll make sure you always have something worth pouring.
+                        </p>
+                        <a href="https://wa.me/27000000000?text=Hi%20Chanta%2C%20I%27d%20love%20to%20explore%20a%20partnership%20for%20my%20hospitality%20business!"
+                           target="_blank"
+                           class="inline-flex items-center gap-3 bg-white text-brand-charcoal font-bold py-4 px-8 rounded-full hover:bg-brand-gold hover:text-white transition-colors text-sm">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            Let's Talk Partnership
+                        </a>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4">
+                            <div class="w-10 h-10 bg-brand-gold/20 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-utensils text-brand-gold"></i>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Restaurants &amp; Cafés</p>
+                                <p class="text-white/40 text-xs">Wholesale pricing, weekly delivery</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4">
+                            <div class="w-10 h-10 bg-brand-gold/20 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-hotel text-brand-gold"></i>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Hotels &amp; Lodges</p>
+                                <p class="text-white/40 text-xs">Branded minibar, in-room &amp; buffet options</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-4">
+                            <div class="w-10 h-10 bg-brand-gold/20 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-music text-brand-gold"></i>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Festivals &amp; Markets</p>
+                                <p class="text-white/40 text-xs">Pop-up supply, event stock planning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <span>&copy; 2026 Chanta. Cold-pressed in Cape Town.</span>
+        <div class="flex gap-6">
+            <a href="our-juice.html">Our Juice</a>
+            <a href="our-story.html">Our Story</a>
+            <a href="index-store-test.html">Shop</a>
+        </div>
+    </footer>
+
+</body>
+</html>
