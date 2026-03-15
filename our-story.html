@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story — Chanta</title>
+    <meta name="description" content="Two young entrepreneurs on a mission to bring the farm to the city. Fresh, fast, and never compromised.">
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold:    '#D4AF37',
+                            charcoal:'#242424',
+                            cream:   '#FDFCF8',
+                            forest:  '#2D3A2D',
+                            green:   '#2D6A4F',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#FDFCF8; color:#242424; font-family:'General Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+
+        /* Nav */
+        nav {
+            position: fixed; top:0; left:0; right:0; z-index:100;
+            display: flex; align-items:center; justify-content:space-between;
+            padding: 1.25rem 2.5rem;
+            background: rgba(253,252,248,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(36,36,36,0.06);
+        }
+        nav a { font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; color:#242424; opacity:0.45; transition:opacity 0.2s; }
+        nav a:hover, nav a.active { opacity:1; }
+        nav .logo { font-size:1.1rem; font-weight:700; letter-spacing:0.05em; opacity:1; }
+
+        /* Reveal */
+        .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.75s ease, transform 0.75s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+        .reveal-left { opacity:0; transform:translateX(-40px); transition:opacity 0.8s ease, transform 0.8s ease; }
+        .reveal-left.visible { opacity:1; transform:translateX(0); }
+        .reveal-right { opacity:0; transform:translateX(40px); transition:opacity 0.8s ease, transform 0.8s ease; }
+        .reveal-right.visible { opacity:1; transform:translateX(0); }
+
+        /* Chapter marker */
+        .chapter {
+            font-size:0.65rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+            color:#D4AF37; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.6rem;
+        }
+        .chapter::before { content:''; width:28px; height:1.5px; background:#D4AF37; display:block; }
+
+        /* Pull quote */
+        .pull-quote {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: #242424;
+        }
+
+        /* Stat */
+        .stat-box {
+            border-top: 1.5px solid rgba(36,36,36,0.1);
+            padding-top: 1.25rem;
+        }
+
+        /* Timeline dot */
+        .tl-dot {
+            width:12px; height:12px; border-radius:50%;
+            background:#D4AF37; flex-shrink:0; margin-top:6px;
+            box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
+        }
+
+        footer { background:#242424; color:rgba(253,252,248,0.4); padding:2.5rem; display:flex; align-items:center; justify-content:space-between; font-size:0.8rem; }
+        footer a { color:rgba(253,252,248,0.4); text-decoration:none; }
+        footer a:hover { color:#D4AF37; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="index-store-test.html" class="logo">Chanta</a>
+    <div style="display:flex;gap:2rem;">
+        <a href="our-juice.html">Our Juice</a>
+        <a href="our-story.html" class="active">Our Story</a>
+        <a href="our-partnerships.html">Partnerships</a>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section style="min-height:100vh; display:grid; grid-template-columns:1fr 1fr; padding-top:5rem;">
+
+    <!-- Left: full-bleed image -->
+    <div style="position:relative; overflow:hidden; min-height:90vh;">
+        <img src="story-founders.png" alt="Chanta founders at the farm with Johannesburg skyline behind them"
+             style="width:100%; height:100%; object-fit:cover; object-position:center;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,#FDFCF8 100%);"></div>
+        <!-- Float caption -->
+        <div style="position:absolute; bottom:2.5rem; left:2.5rem; background:rgba(253,252,248,0.9); backdrop-filter:blur(12px); border-radius:1.25rem; padding:1rem 1.25rem; border:1px solid rgba(36,36,36,0.08);">
+            <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(36,36,36,0.4); margin-bottom:0.2rem;">Where it started</p>
+            <p style="font-size:0.9rem; font-weight:600;">A farm outside Johannesburg, 2024</p>
+        </div>
+    </div>
+
+    <!-- Right: open line -->
+    <div style="display:flex; flex-direction:column; justify-content:center; padding:5rem 5rem 5rem 4rem;">
+        <p class="chapter reveal">Our story</p>
+        <h1 style="font-size:clamp(2.8rem,4.5vw,4.5rem); font-weight:700; line-height:1.0; margin-bottom:2rem;" class="reveal">
+            The farm<br>was always<br><span style="color:#D4AF37;">right there.</span>
+        </h1>
+        <p style="font-size:1.05rem; color:rgba(36,36,36,0.55); line-height:1.8; margin-bottom:2rem; max-width:420px;" class="reveal">
+            We grew up in Johannesburg. Like most city kids, our idea of "fresh juice" came from a carton on a supermarket shelf — pasteurised, preserved, and produced two months ago.
+        </p>
+        <p style="font-size:1.05rem; color:rgba(36,36,36,0.55); line-height:1.8; max-width:420px;" class="reveal">
+            Then we went to the farms just outside the city. The fruit was extraordinary. And nobody was bringing it to our street.
+        </p>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE PROBLEM
+═══════════════════════════════════════ -->
+<section style="background:#242424; padding:7rem 2.5rem;">
+    <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center;">
+
+        <div>
+            <p class="chapter reveal" style="color:#D4AF37;">The question</p>
+            <div class="pull-quote reveal" style="color:white; margin-bottom:2rem;">
+                "Why does fast always mean compromising on fresh?"
+            </div>
+            <p style="color:rgba(255,255,255,0.5); line-height:1.8; font-size:0.95rem; max-width:400px;" class="reveal">
+                We asked that question a lot. Every convenience store stocked shelf-stable juice. Every restaurant poured from concentrate. Speed had come at the cost of everything that made juice worth drinking.
+            </p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;" class="reveal">
+            <div class="stat-box" style="border-color:rgba(255,255,255,0.1);">
+                <p style="font-size:2.5rem; font-weight:700; color:#D4AF37; line-height:1;">97%</p>
+                <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:0.5rem; line-height:1.5;">of commercial juice is heat-treated, stripping nutrients before it reaches you</p>
+            </div>
+            <div class="stat-box" style="border-color:rgba(255,255,255,0.1);">
+                <p style="font-size:2.5rem; font-weight:700; color:#D4AF37; line-height:1;">2mo+</p>
+                <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:0.5rem; line-height:1.5;">Average age of supermarket OJ from pressing to your hands</p>
+            </div>
+            <div class="stat-box" style="border-color:rgba(255,255,255,0.1);">
+                <p style="font-size:2.5rem; font-weight:700; color:#D4AF37; line-height:1;">0km</p>
+                <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:0.5rem; line-height:1.5;">Between the closest farm and Johannesburg's city bowl</p>
+            </div>
+            <div class="stat-box" style="border-color:rgba(255,255,255,0.1);">
+                <p style="font-size:2.5rem; font-weight:700; color:#D4AF37; line-height:1;">24hr</p>
+                <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:0.5rem; line-height:1.5;">From cold-pressing to your door. That's the Chanta promise.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE MISSION — TIMELINE
+═══════════════════════════════════════ -->
+<section style="padding:8rem 2.5rem; background:#FDFCF8;">
+    <div style="max-width:900px; margin:0 auto;">
+        <p class="chapter reveal">How we got here</p>
+        <h2 style="font-size:clamp(2.2rem,4vw,3.5rem); font-weight:700; line-height:1.1; margin-bottom:5rem;" class="reveal">
+            From a conversation<br>to your fridge.
+        </h2>
+
+        <!-- Timeline -->
+        <div style="display:flex; flex-direction:column; gap:3.5rem; position:relative; padding-left:2rem; border-left:2px solid rgba(36,36,36,0.08);">
+
+            <div style="display:flex; gap:2rem; align-items:flex-start; position:relative;" class="reveal">
+                <div class="tl-dot" style="position:absolute;left:-2.35rem;"></div>
+                <div>
+                    <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#D4AF37; margin-bottom:0.5rem;">The realisation</p>
+                    <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:0.6rem;">We visited our first farm.</h3>
+                    <p style="color:rgba(36,36,36,0.55); line-height:1.75; font-size:0.92rem; max-width:560px;">
+                        A friend's family owned an orange farm 40 minutes from Sandton. We went out one weekend and tasted juice pressed on-site. It was incomparable — nothing like what we'd been buying. We drove back to the city in silence, already thinking.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:2rem; align-items:flex-start; position:relative;" class="reveal">
+                <div class="tl-dot" style="position:absolute;left:-2.35rem;"></div>
+                <div>
+                    <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#D4AF37; margin-bottom:0.5rem;">The mission</p>
+                    <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:0.6rem;">Bring the farm to the city. Fast.</h3>
+                    <p style="color:rgba(36,36,36,0.55); line-height:1.75; font-size:0.92rem; max-width:560px;">
+                        We weren't building a slow food movement. We wanted the opposite — we wanted fresh produce delivered with the speed and convenience of fast food. If someone can get a burger to your door in 20 minutes, why can't you get real juice from a real farm?
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:2rem; align-items:flex-start; position:relative;" class="reveal">
+                <div class="tl-dot" style="position:absolute;left:-2.35rem;"></div>
+                <div>
+                    <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#D4AF37; margin-bottom:0.5rem;">The build</p>
+                    <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:0.6rem;">We built the supply chain ourselves.</h3>
+                    <p style="color:rgba(36,36,36,0.55); line-height:1.75; font-size:0.92rem; max-width:560px;">
+                        Direct relationships with local growers. Cold-press on our side. No middlemen, no warehouse delays, no compromises to shelf life. Pressed today, with you tomorrow. That's the whole model.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:2rem; align-items:flex-start; position:relative;" class="reveal">
+                <div class="tl-dot" style="position:absolute;left:-2.35rem; background:#2D6A4F; box-shadow:0 0 0 4px rgba(45,106,79,0.15);"></div>
+                <div>
+                    <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#2D6A4F; margin-bottom:0.5rem;">Right now</p>
+                    <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:0.6rem;">Chanta. Cold-pressed in Johannesburg.</h3>
+                    <p style="color:rgba(36,36,36,0.55); line-height:1.75; font-size:0.92rem; max-width:560px;">
+                        We started with one juice because we wanted it to be right before we made it bigger. Our orange is just the beginning. The farm has a lot more to offer — and we're going to bring all of it to you.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE PROCESS IMAGE + BELIEF
+═══════════════════════════════════════ -->
+<section style="display:grid; grid-template-columns:1fr 1fr; min-height:70vh;">
+
+    <!-- Image -->
+    <div style="position:relative; overflow:hidden; min-height:500px;">
+        <img src="story-process.png" alt="Cold-pressing fresh oranges into a Chanta bottle"
+             style="width:100%; height:100%; object-fit:cover; object-position:center top;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to left,transparent 50%,rgba(36,36,36,0.3) 100%);"></div>
+    </div>
+
+    <!-- Belief -->
+    <div style="background:#2D3A2D; display:flex; flex-direction:column; justify-content:center; padding:5rem 4.5rem; position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(212,175,55,0.12) 0%,transparent 70%);"></div>
+
+        <div style="position:relative; z-index:1;">
+            <p class="chapter reveal" style="color:#D4AF37;">What we believe</p>
+            <h2 style="font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700; color:white; line-height:1.15; margin-bottom:1.75rem;" class="reveal">
+                Fast doesn't have to mean<br><span style="color:#D4AF37;">giving anything up.</span>
+            </h2>
+
+            <div style="display:flex; flex-direction:column; gap:1.5rem; margin-bottom:2.5rem;">
+                <div style="display:flex; gap:1rem; align-items:flex-start;" class="reveal">
+                    <i class="fa-solid fa-circle-check" style="color:#D4AF37; margin-top:3px; flex-shrink:0;"></i>
+                    <p style="color:rgba(255,255,255,0.6); font-size:0.92rem; line-height:1.7;">Fresh produce should be as convenient as any fast food. Speed and quality are not opposites — they just require a better system.</p>
+                </div>
+                <div style="display:flex; gap:1rem; align-items:flex-start;" class="reveal">
+                    <i class="fa-solid fa-circle-check" style="color:#D4AF37; margin-top:3px; flex-shrink:0;"></i>
+                    <p style="color:rgba(255,255,255,0.6); font-size:0.92rem; line-height:1.7;">Direct-to-consumer means the farmer gets a fair price and you get the freshest possible product. Cut the chain, keep the quality.</p>
+                </div>
+                <div style="display:flex; gap:1rem; align-items:flex-start;" class="reveal">
+                    <i class="fa-solid fa-circle-check" style="color:#D4AF37; margin-top:3px; flex-shrink:0;"></i>
+                    <p style="color:rgba(255,255,255,0.6); font-size:0.92rem; line-height:1.7;">Johannesburg deserves world-class fresh produce. The fruit is already growing nearby. We just need to close the gap.</p>
+                </div>
+            </div>
+
+            <a href="index-store-test.html" style="display:inline-flex; align-items:center; gap:0.7rem; background:#D4AF37; color:white; font-weight:700; font-size:0.85rem; padding:1rem 2rem; border-radius:999px; text-decoration:none; width:fit-content; transition:all 0.2s;" onmouseover="this.style.background='white';this.style.color='#242424'" onmouseout="this.style.background='#D4AF37';this.style.color='white'" class="reveal">
+                <i class="fa-solid fa-basket-shopping"></i> Taste what we mean
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     DTC CALLOUT
+═══════════════════════════════════════ -->
+<section style="background:#FDFCF8; padding:7rem 2.5rem; text-align:center;">
+    <div style="max-width:720px; margin:0 auto;">
+        <p class="chapter reveal" style="justify-content:center;">The model</p>
+        <h2 style="font-size:clamp(2.5rem,5vw,4.2rem); font-weight:700; line-height:1.05; margin-bottom:1.5rem;" class="reveal">
+            Farm.<br>Press.<br>Your door.
+        </h2>
+        <p style="color:rgba(36,36,36,0.5); max-width:500px; margin:0 auto 3.5rem; font-size:1.05rem; line-height:1.75;" class="reveal">
+            No warehouse. No distributor. No retailer markup. No shelf life window. Just the shortest possible distance between the fruit and you.
+        </p>
+
+        <!-- Flow diagram -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;" class="reveal">
+            <div style="text-align:center;">
+                <div style="width:72px;height:72px;border-radius:50%;background:rgba(212,175,55,0.1);border:1.5px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;">
+                    <i class="fa-solid fa-seedling" style="color:#D4AF37;font-size:1.4rem;"></i>
+                </div>
+                <p style="font-weight:700;font-size:0.85rem;">Local farm</p>
+                <p style="font-size:0.72rem;color:rgba(36,36,36,0.4);margin-top:0.2rem;">Direct from grower</p>
+            </div>
+            <i class="fa-solid fa-arrow-right" style="color:rgba(36,36,36,0.2);font-size:1.2rem;"></i>
+            <div style="text-align:center;">
+                <div style="width:72px;height:72px;border-radius:50%;background:rgba(212,175,55,0.1);border:1.5px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;">
+                    <i class="fa-solid fa-droplet" style="color:#D4AF37;font-size:1.4rem;"></i>
+                </div>
+                <p style="font-weight:700;font-size:0.85rem;">Cold-pressed</p>
+                <p style="font-size:0.72rem;color:rgba(36,36,36,0.4);margin-top:0.2rem;">Same day</p>
+            </div>
+            <i class="fa-solid fa-arrow-right" style="color:rgba(36,36,36,0.2);font-size:1.2rem;"></i>
+            <div style="text-align:center;">
+                <div style="width:72px;height:72px;border-radius:50%;background:rgba(212,175,55,0.1);border:1.5px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;">
+                    <i class="fa-solid fa-bottle-water" style="color:#D4AF37;font-size:1.4rem;"></i>
+                </div>
+                <p style="font-weight:700;font-size:0.85rem;">Bottled</p>
+                <p style="font-size:0.72rem;color:rgba(36,36,36,0.4);margin-top:0.2rem;">No preservatives</p>
+            </div>
+            <i class="fa-solid fa-arrow-right" style="color:rgba(36,36,36,0.2);font-size:1.2rem;"></i>
+            <div style="text-align:center;">
+                <div style="width:72px;height:72px;border-radius:50%;background:rgba(45,106,79,0.1);border:1.5px solid rgba(45,106,79,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;">
+                    <i class="fa-solid fa-house" style="color:#2D6A4F;font-size:1.4rem;"></i>
+                </div>
+                <p style="font-weight:700;font-size:0.85rem;">Your door</p>
+                <p style="font-size:0.72rem;color:rgba(36,36,36,0.4);margin-top:0.2rem;">Within 24hrs</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CLOSING CTA
+═══════════════════════════════════════ -->
+<section style="background:linear-gradient(160deg,#2D3A2D 0%,#1a2a1a 100%); padding:6rem 2.5rem; text-align:center; position:relative; overflow:hidden;">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:350px;background:radial-gradient(ellipse,rgba(212,175,55,0.12) 0%,transparent 70%);"></div>
+    <div style="position:relative;z-index:1;max-width:580px;margin:0 auto;">
+        <p class="chapter reveal" style="color:#D4AF37;justify-content:center;">Join us</p>
+        <h2 style="font-size:clamp(2rem,4.5vw,3.5rem); font-weight:700; color:white; margin-bottom:1.5rem; line-height:1.1;" class="reveal">
+            Be part of the<br>farm-to-city movement.
+        </h2>
+        <p style="color:rgba(255,255,255,0.5); margin-bottom:2.5rem; font-size:1rem; line-height:1.65;" class="reveal">
+            Order a pack. Subscribe for the season. Or partner with us to bring cold-pressed freshness to your space.
+        </p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="reveal">
+            <a href="index-store-test.html" style="background:#D4AF37;color:white;font-weight:700;font-size:0.9rem;padding:1.1rem 2.2rem;border-radius:999px;text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;transition:all 0.2s;" onmouseover="this.style.background='white';this.style.color='#242424'" onmouseout="this.style.background='#D4AF37';this.style.color='white'">
+                <i class="fa-solid fa-basket-shopping"></i> Shop now
+            </a>
+            <a href="our-partnerships.html" style="background:rgba(255,255,255,0.06);color:white;border:1px solid rgba(255,255,255,0.15);font-weight:700;font-size:0.9rem;padding:1.1rem 2.2rem;border-radius:999px;text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+                <i class="fa-solid fa-handshake"></i> Partner with us
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span>&copy; 2026 Chanta. Cold-pressed in Johannesburg.</span>
+    <div style="display:flex;gap:1.5rem;">
+        <a href="our-juice.html">Our Juice</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="index-store-test.html">Shop</a>
+    </div>
+</footer>
+
+<script>
+    // Scroll reveal
+    const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 70);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    allReveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
