@@ -589,8 +589,6 @@
                 panel.classList.add('translate-x-0');
             }, 10);
             
-            // Critical for Layer 3: Disable Layer 1/2 lenis horizontal scroll
-            lenis.stop();
         }
 
         function closeOperatingRoom() {
@@ -605,7 +603,6 @@
             
             setTimeout(() => {
                 overlay.classList.add('hidden');
-                lenis.start();
             }, 300);
         }
         // ─── SCROLL TRACK CALCULATION ───────────────
@@ -631,9 +628,7 @@
         // ─── GSAP ─────────────────────────────────────────────────────
         gsap.registerPlugin(ScrollTrigger);
 
-        const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1.2, smoothWheel: true });
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        // Native GSAP scroll — no Lenis buffering so response is instant
         gsap.ticker.lagSmoothing(0);
 
         const tl = gsap.timeline({
@@ -641,13 +636,8 @@
                 trigger: "body",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: true,
-                invalidateOnRefresh: true,
-                onUpdate: (self) => {
-                    if (self.progress === 0 && lenis.progress > 0) {
-                        ScrollTrigger.refresh();
-                    }
-                }
+                scrub: 0.5,
+                invalidateOnRefresh: true
             }
         });
 
