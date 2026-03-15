@@ -533,10 +533,6 @@
         localStorage.setItem('chanta_users', JSON.stringify(users));
         localStorage.setItem('chanta_current', JSON.stringify(user));
 
-        // Notify via WhatsApp
-        const msg = `New Chanta member signup!\n\n👤 ${user.first} ${user.last}\n📧 ${user.email}\n📱 ${user.phone}\n📦 ${PACK_LABELS[user.pack]} — R ${PACK_PRICES[user.pack]}/mo\n📍 ${user.address}`;
-        window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-
         loadDashboard(user);
     }
 
