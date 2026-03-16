@@ -558,7 +558,7 @@
             return Math.round((11 * 12) + ((km - 15) * 16));
         }
 
-        async function calculateDelivery() {
+        async function calculateDelivery(providedLat, providedLng) {
             const addr = document.getElementById('order-address').value.trim();
             if(!addr) { alert('Please enter an address'); return; }
             
@@ -567,20 +567,27 @@
             btn.disabled = true;
 
             try {
-                const query = encodeURIComponent(addr + ', Johannesburg, South Africa');
-                const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
-                const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-                const data = await res.json();
+                let lat, lng;
 
-                if (!data.length) {
-                    alert('Address not found mapping from Rosebank. Try adding more detail like suburbs.');
-                    btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
-                    btn.disabled = false;
-                    return;
+                if (providedLat !== undefined && providedLng !== undefined) {
+                    // Coordinates already known from autocomplete — skip Nominatim
+                    lat = providedLat;
+                    lng = providedLng;
+                } else {
+                    const query = encodeURIComponent(addr + ', Johannesburg, South Africa');
+                    const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
+                    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        alert('Address not found. Try selecting one from the suggestions as you type.');
+                        btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
+                        btn.disabled = false;
+                        return;
+                    }
+                    lat = parseFloat(data[0].lat);
+                    lng = parseFloat(data[0].lon);
                 }
-
-                const lat = parseFloat(data[0].lat);
-                const lng = parseFloat(data[0].lon);
                 const km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
                 calculatedDistance = km;
                 calculatedDeliveryCost = calcDeliveryCost(km, selectedBundle, deliveryType);
@@ -647,6 +654,19 @@
         const suggestionsBox = document.getElementById('address-suggestions');
         let debounceTimer;
 
+        // Build a clean, concise address from Nominatim addressdetails
+        function formatAddress(item) {
+            const a = item.address || {};
+            const parts = [
+                [a.house_number, a.road].filter(Boolean).join(' '),
+                a.suburb || a.neighbourhood || a.quarter || '',
+                a.city || a.town || a.village || '',
+                a.postcode || '',
+                a.country || ''
+            ].filter(Boolean);
+            return parts.join(', ');
+        }
+
         addressInput.addEventListener('input', (e) => {
             clearTimeout(debounceTimer);
             const query = e.target.value.trim();
@@ -659,8 +679,7 @@
 
             debounceTimer = setTimeout(async () => {
                 try {
-                    // Limit search to South Africa, give priority to Johannesburg
-                    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=za&limit=4`;
+                    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=za&limit=5`;
                     const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
                     const data = await res.json();
 
@@ -669,28 +688,31 @@
                         return;
                     }
 
-                    suggestionsBox.innerHTML = data.map(item => `
-                        <div class="px-5 py-3 border-b border-gray-100 last:border-0 cursor-pointer hover:bg-brand-stone/30 transition-colors" onclick="selectAddress('${item.display_name.replace(/'/g, "\\'")}')">
-                            <p class="text-xs text-brand-charcoal">${item.display_name}</p>
-                        </div>
-                    `).join('');
+                    suggestionsBox.innerHTML = data.map(item => {
+                        const label = formatAddress(item);
+                        const lat = item.lat;
+                        const lng = item.lon;
+                        return `<div class="px-5 py-3 border-b border-gray-100 last:border-0 cursor-pointer hover:bg-brand-stone/30 transition-colors"
+                                     onclick="selectAddress('${label.replace(/'/g, "\\'")}', ${lat}, ${lng})">
+                                    <p class="text-sm text-brand-charcoal">${label}</p>
+                                </div>`;
+                    }).join('');
                     
                     suggestionsBox.classList.remove('hidden');
                 } catch (e) {
-                    console.error("Autocomplete failed:", e);
+                    console.error('Autocomplete failed:', e);
                 }
-            }, 500); // 500ms debounce
+            }, 500);
         });
 
-        function selectAddress(fullAddress) {
-            addressInput.value = fullAddress;
+        function selectAddress(formattedAddress, lat, lng) {
+            addressInput.value = formattedAddress;
             suggestionsBox.classList.add('hidden');
             suggestionsBox.innerHTML = '';
-            
-            // Auto-calculate delivery if they pick an address
+            // Pass coordinates directly — no second Nominatim lookup needed
             document.getElementById('delivery-result').classList.add('hidden');
             document.getElementById('checkout-btns').classList.add('hidden');
-            calculateDelivery();
+            calculateDelivery(parseFloat(lat), parseFloat(lng));
         }
 
         // Hide autocomplete when clicking outside
