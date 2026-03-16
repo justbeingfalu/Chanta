@@ -14,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Places Autocomplete -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEIZo2SqYvN79aBrY0d1JTuEo72UKAEP0&libraries=places"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -425,9 +427,7 @@
 
                     <div class="relative">
                         <label class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-2">Delivery Address</label>
-                        <input type="text" id="order-address" autocomplete="off" placeholder="E.g. 14 Jan Smuts Ave, Parktown" class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
-                        <!-- Autocomplete dropdown -->
-                        <div id="address-suggestions" class="absolute left-0 right-0 top-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 hidden max-h-[220px] overflow-y-auto custom-scrollbar"></div>
+                        <input type="text" id="order-address" placeholder="Start typing your address..." class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
                         <p class="text-[10px] text-gray-400 mt-2">We calculate from Rosebank Mall, Johannesburg</p>
                     </div>
 
@@ -573,34 +573,24 @@
                     // Coordinates already known from autocomplete — skip Nominatim
                     lat = providedLat;
                     lng = providedLng;
+                } else if (selectedPlaceCoords) {
+                    // Use cached coordinates from Google Places selection
+                    lat = selectedPlaceCoords.lat;
+                    lng = selectedPlaceCoords.lng;
                 } else {
-                    // Cascading lookup: try increasingly broad queries until we get a result.
-                    // This handles addresses like Edenvale (Ekurhuleni, not Johannesburg) as well
-                    // as Johannesburg suburbs. We bias toward Gauteng but don't hard-code the city.
-                    const baseAddr = addr.replace(/,\s*south africa$/i, '').trim();
-                    const attempts = [
-                        `${baseAddr}, Gauteng, South Africa`,
-                        baseAddr.replace(/^\d+\s*/, '') + ', Gauteng, South Africa', // strip house number
-                        `${baseAddr}, South Africa`,
-                        baseAddr,
-                    ];
-
-                    let found = null;
-                    for (const attempt of attempts) {
-                        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(attempt)}&format=json&countrycodes=za&limit=1`;
-                        const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-                        const data = await res.json();
-                        if (data.length) { found = data[0]; break; }
-                    }
-
-                    if (!found) {
-                        alert('Address not found. Please type your address and select a suggestion from the dropdown.');
-                        btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
-                        btn.disabled = false;
-                        return;
-                    }
-                    lat = parseFloat(found.lat);
-                    lng = parseFloat(found.lon);
+                    // Fallback: use Google Geocoding API
+                    const geocoder = new google.maps.Geocoder();
+                    const result = await new Promise((resolve, reject) => {
+                        geocoder.geocode(
+                            { address: addr, componentRestrictions: { country: 'ZA' } },
+                            (results, status) => {
+                                if (status === 'OK' && results.length) resolve(results[0]);
+                                else reject(status);
+                            }
+                        );
+                    });
+                    lat = result.geometry.location.lat();
+                    lng = result.geometry.location.lng();
                 }
                 const km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
                 calculatedDistance = km;
@@ -663,78 +653,38 @@
             window.open(`${YOCO_BASE_URL}?amount=${total}`, '_blank');
         }
 
-        // ─── ADDRESS AUTOCOMPLETE ─────────────────────────────────────
-        const addressInput = document.getElementById('order-address');
-        const suggestionsBox = document.getElementById('address-suggestions');
-        let debounceTimer;
+        // ─── GOOGLE PLACES AUTOCOMPLETE ────────────────────────────────
+        let selectedPlaceCoords = null; // Cache coordinates from Places selection
 
-        // Build a clean, concise address from Nominatim addressdetails
-        function formatAddress(item) {
-            const a = item.address || {};
-            const parts = [
-                [a.house_number, a.road].filter(Boolean).join(' '),
-                a.suburb || a.neighbourhood || a.quarter || '',
-                a.city || a.town || a.village || '',
-                a.postcode || '',
-                a.country || ''
-            ].filter(Boolean);
-            return parts.join(', ');
+        function initGoogleAutocomplete() {
+            const input = document.getElementById('order-address');
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                componentRestrictions: { country: 'za' },
+                fields: ['geometry', 'formatted_address', 'address_components'],
+                types: ['address']
+            });
+
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) return;
+
+                const lat = place.geometry.location.lat();
+                const lng = place.geometry.location.lng();
+                selectedPlaceCoords = { lat, lng };
+
+                // Auto-calculate delivery immediately
+                document.getElementById('delivery-result').classList.add('hidden');
+                document.getElementById('checkout-btns').classList.add('hidden');
+                calculateDelivery(lat, lng);
+            });
         }
 
-        addressInput.addEventListener('input', (e) => {
-            clearTimeout(debounceTimer);
-            const query = e.target.value.trim();
-            
-            if (query.length < 4) {
-                suggestionsBox.classList.add('hidden');
-                suggestionsBox.innerHTML = '';
-                return;
-            }
-
-            debounceTimer = setTimeout(async () => {
-                try {
-                    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=za&limit=5`;
-                    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-                    const data = await res.json();
-
-                    if (!data.length) {
-                        suggestionsBox.classList.add('hidden');
-                        return;
-                    }
-
-                    suggestionsBox.innerHTML = data.map(item => {
-                        const label = formatAddress(item);
-                        const lat = item.lat;
-                        const lng = item.lon;
-                        return `<div class="px-5 py-3 border-b border-gray-100 last:border-0 cursor-pointer hover:bg-brand-stone/30 transition-colors"
-                                     onclick="selectAddress('${label.replace(/'/g, "\\'")}', ${lat}, ${lng})">
-                                    <p class="text-sm text-brand-charcoal">${label}</p>
-                                </div>`;
-                    }).join('');
-                    
-                    suggestionsBox.classList.remove('hidden');
-                } catch (e) {
-                    console.error('Autocomplete failed:', e);
-                }
-            }, 500);
-        });
-
-        function selectAddress(formattedAddress, lat, lng) {
-            addressInput.value = formattedAddress;
-            suggestionsBox.classList.add('hidden');
-            suggestionsBox.innerHTML = '';
-            // Pass coordinates directly — no second Nominatim lookup needed
-            document.getElementById('delivery-result').classList.add('hidden');
-            document.getElementById('checkout-btns').classList.add('hidden');
-            calculateDelivery(parseFloat(lat), parseFloat(lng));
+        // Init when Google Maps is ready
+        if (typeof google !== 'undefined' && google.maps) {
+            initGoogleAutocomplete();
+        } else {
+            window.addEventListener('load', initGoogleAutocomplete);
         }
-
-        // Hide autocomplete when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!addressInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
-                suggestionsBox.classList.add('hidden');
-            }
-        });
 
 
         // ─── SAME-DAY DELIVERY CUTOFF TIMER ─────────────────────────────
