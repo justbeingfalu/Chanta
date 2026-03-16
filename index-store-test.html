@@ -592,14 +592,47 @@
                     lat = result.geometry.location.lat();
                     lng = result.geometry.location.lng();
                 }
-                const km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
+
+                // ── Get exact driving distance via Google Distance Matrix ──
+                let km;
+                let driveDuration = '';
+                try {
+                    const service = new google.maps.DistanceMatrixService();
+                    const origin = new google.maps.LatLng(ROSEBANK_LAT, ROSEBANK_LNG);
+                    const dest = new google.maps.LatLng(lat, lng);
+
+                    const dmResult = await new Promise((resolve, reject) => {
+                        service.getDistanceMatrix({
+                            origins: [origin],
+                            destinations: [dest],
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            unitSystem: google.maps.UnitSystem.METRIC
+                        }, (response, status) => {
+                            if (status === 'OK') resolve(response);
+                            else reject(status);
+                        });
+                    });
+
+                    const element = dmResult.rows[0].elements[0];
+                    if (element.status === 'OK') {
+                        km = element.distance.value / 1000; // meters → km
+                        driveDuration = element.duration.text; // e.g. "12 mins"
+                    } else {
+                        // Fallback to straight-line if route not found
+                        km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
+                    }
+                } catch (e) {
+                    // Fallback to straight-line
+                    km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
+                }
+
                 calculatedDistance = km;
                 calculatedDeliveryCost = calcDeliveryCost(km, selectedBundle, deliveryType);
 
                 const bundlePrice = BUNDLES[selectedBundle].price;
                 const total = bundlePrice + calculatedDeliveryCost;
 
-                document.getElementById('delivery-distance').textContent = km.toFixed(1) + ' km';
+                document.getElementById('delivery-distance').textContent = km.toFixed(1) + ' km' + (driveDuration ? ` (${driveDuration} drive)` : '');
                 document.getElementById('delivery-cost').textContent = calculatedDeliveryCost === 0 ? 'FREE' : 'R ' + calculatedDeliveryCost;
                 document.getElementById('delivery-total').textContent = 'R ' + total.toFixed(2);
 
