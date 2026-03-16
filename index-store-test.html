@@ -423,9 +423,11 @@
                         <p id="sameday-warning" class="hidden text-brand-red text-xs font-bold mt-2">⚠ Same-day orders must be placed before 10:00am.</p>
                     </div>
 
-                    <div>
+                    <div class="relative">
                         <label class="block text-xs font-bold uppercase tracking-widest text-brand-charcoal/40 mb-2">Delivery Address</label>
-                        <input type="text" id="order-address" placeholder="E.g. 14 Jan Smuts Ave, Parktown" class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
+                        <input type="text" id="order-address" autocomplete="off" placeholder="E.g. 14 Jan Smuts Ave, Parktown" class="w-full bg-brand-stone/20 border-2 border-transparent focus:border-brand-charcoal rounded-2xl px-6 py-4 outline-none transition-all">
+                        <!-- Autocomplete dropdown -->
+                        <div id="address-suggestions" class="absolute left-0 right-0 top-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 hidden max-h-[220px] overflow-y-auto custom-scrollbar"></div>
                         <p class="text-[10px] text-gray-400 mt-2">We calculate from Rosebank Mall, Johannesburg</p>
                     </div>
 
@@ -639,6 +641,65 @@
             const total = b.price + calculatedDeliveryCost;
             window.open(`${YOCO_BASE_URL}?amount=${total}`, '_blank');
         }
+
+        // ─── ADDRESS AUTOCOMPLETE ─────────────────────────────────────
+        const addressInput = document.getElementById('order-address');
+        const suggestionsBox = document.getElementById('address-suggestions');
+        let debounceTimer;
+
+        addressInput.addEventListener('input', (e) => {
+            clearTimeout(debounceTimer);
+            const query = e.target.value.trim();
+            
+            if (query.length < 4) {
+                suggestionsBox.classList.add('hidden');
+                suggestionsBox.innerHTML = '';
+                return;
+            }
+
+            debounceTimer = setTimeout(async () => {
+                try {
+                    // Limit search to South Africa, give priority to Johannesburg
+                    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=za&limit=4`;
+                    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        suggestionsBox.classList.add('hidden');
+                        return;
+                    }
+
+                    suggestionsBox.innerHTML = data.map(item => `
+                        <div class="px-5 py-3 border-b border-gray-100 last:border-0 cursor-pointer hover:bg-brand-stone/30 transition-colors" onclick="selectAddress('${item.display_name.replace(/'/g, "\\'")}')">
+                            <p class="text-xs text-brand-charcoal">${item.display_name}</p>
+                        </div>
+                    `).join('');
+                    
+                    suggestionsBox.classList.remove('hidden');
+                } catch (e) {
+                    console.error("Autocomplete failed:", e);
+                }
+            }, 500); // 500ms debounce
+        });
+
+        function selectAddress(fullAddress) {
+            addressInput.value = fullAddress;
+            suggestionsBox.classList.add('hidden');
+            suggestionsBox.innerHTML = '';
+            
+            // Auto-calculate delivery if they pick an address
+            document.getElementById('delivery-result').classList.add('hidden');
+            document.getElementById('checkout-btns').classList.add('hidden');
+            calculateDelivery();
+        }
+
+        // Hide autocomplete when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!addressInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.add('hidden');
+            }
+        });
+
 
         // ─── SAME-DAY DELIVERY CUTOFF TIMER ─────────────────────────────
         function updateCutoffTimer() {
