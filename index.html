@@ -574,19 +574,33 @@
                     lat = providedLat;
                     lng = providedLng;
                 } else {
-                    const query = encodeURIComponent(addr + ', Johannesburg, South Africa');
-                    const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
-                    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-                    const data = await res.json();
+                    // Cascading lookup: try increasingly broad queries until we get a result.
+                    // This handles addresses like Edenvale (Ekurhuleni, not Johannesburg) as well
+                    // as Johannesburg suburbs. We bias toward Gauteng but don't hard-code the city.
+                    const baseAddr = addr.replace(/,\s*south africa$/i, '').trim();
+                    const attempts = [
+                        `${baseAddr}, Gauteng, South Africa`,
+                        baseAddr.replace(/^\d+\s*/, '') + ', Gauteng, South Africa', // strip house number
+                        `${baseAddr}, South Africa`,
+                        baseAddr,
+                    ];
 
-                    if (!data.length) {
-                        alert('Address not found. Try selecting one from the suggestions as you type.');
+                    let found = null;
+                    for (const attempt of attempts) {
+                        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(attempt)}&format=json&countrycodes=za&limit=1`;
+                        const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+                        const data = await res.json();
+                        if (data.length) { found = data[0]; break; }
+                    }
+
+                    if (!found) {
+                        alert('Address not found. Please type your address and select a suggestion from the dropdown.');
                         btn.innerHTML = '<i class="fa-solid fa-location-dot"></i> Calculate Delivery Cost';
                         btn.disabled = false;
                         return;
                     }
-                    lat = parseFloat(data[0].lat);
-                    lng = parseFloat(data[0].lon);
+                    lat = parseFloat(found.lat);
+                    lng = parseFloat(found.lon);
                 }
                 const km = haversineKm(ROSEBANK_LAT, ROSEBANK_LNG, lat, lng);
                 calculatedDistance = km;
